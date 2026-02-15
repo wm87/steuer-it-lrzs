@@ -1,0 +1,759 @@
+```html
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT-Verfahrensbetrieb im LRZS · BIENE & VO</title>
+    <!-- Font Awesome für Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(145deg, #eef2f6 0%, #f8fafd 100%);
+            color: #1a2c3e;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Hero-Bereich */
+        .hero {
+            background: white;
+            border-radius: 2rem;
+            padding: 3rem 3.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 30px 60px -15px rgba(0,60,100,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: "🐝⚡📊";
+            position: absolute;
+            bottom: -20px;
+            right: 30px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(-5deg);
+            z-index: 0;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(130deg, #003057, #1b4f7a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .hero .sub-subhead {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #1f4970;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            border-left: 4px solid #ff8c42;
+            padding-left: 1.5rem;
+        }
+        .hero .subhead {
+            font-size: 1.5rem;
+            color: #1f4970;
+            max-width: 900px;
+            margin-top: 1rem;
+            font-weight: 500;
+            background: rgba(255,140,66,0.05);
+            padding: 1.2rem 2rem;
+            border-radius: 60px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+        }
+        .hero .subhead i {
+            margin-right: 0.5rem;
+            color: #ff8c42;
+        }
+
+        /* Persönliche Profil-Box - ohne Rahmen, nur Schatten */
+        .profil-highlight {
+            background: #ffffff;
+            border-radius: 1rem;
+            padding: 2rem 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 15px 30px -10px rgba(0,60,110,0.2);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .profil-icon {
+            background: #0b3d5f;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            box-shadow: 0 10px 15px -5px #0b3d5f80;
+        }
+
+        .profil-text {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .profil-text h2 {
+            font-size: 2rem;
+            font-weight: 650;
+            color: #0b3d5f;
+            margin-bottom: 0.75rem;
+        }
+
+        .profil-text p {
+            font-size: 1.2rem;
+            color: #1e3b4f;
+            margin-bottom: 0.75rem;
+        }
+
+        .profil-text .tagline {
+            background: #e3f0fa;
+            padding: 0.75rem 1.5rem;
+            border-radius: 60px;
+            display: inline-block;
+            font-weight: 600;
+            color: #003a66;
+        }
+
+        /* Sektionsüberschriften */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #103a5e;
+            margin: 3rem 0 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border-bottom: 3px solid #b9d4ec;
+            padding-bottom: 0.8rem;
+        }
+        .section-title i {
+            color: #1f6e9c;
+            font-size: 2rem;
+        }
+        .footnote-ref {
+            font-size: 0.85rem;
+            vertical-align: super;
+            color: #0f5e96;
+            font-weight: 500;
+            margin-left: 0.2rem;
+        }
+
+        /* Kachel-Grid allgemein */
+        .kachel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(6px);
+            border-radius: 1.5rem;
+            padding: 1.8rem 1.5rem;
+            box-shadow: 0 12px 28px -10px rgba(0,50,80,0.15);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 38px -12px #1b4f7a80;
+            background: white;
+        }
+
+        .card h3 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #00315c;
+            border-left: 6px solid #2b6c9e;
+            padding-left: 1rem;
+        }
+
+        .card .kurztext {
+            font-size: 1.05rem;
+            color: #1f3b54;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .card button {
+            background: white;
+            border: 2px solid #1f5a8e;
+            color: #1f5a8e;
+            font-weight: 650;
+            font-size: 1rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.15s;
+            align-self: flex-start;
+            box-shadow: 0 4px 8px rgba(0,40,70,0.1);
+        }
+
+        .card button:hover {
+            background: #1f5a8e;
+            color: white;
+            border-color: #1f5a8e;
+            box-shadow: 0 12px 18px -8px #00325c;
+        }
+
+        /* Stellenanforderungen-Tabelle - ohne Rahmen, nur Schatten */
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem 2.5rem;
+            box-shadow: 0 15px 30px -10px rgba(0,60,110,0.2);
+            margin-bottom: 3rem;
+        }
+        .requirements-col h3 {
+            font-size: 1.6rem;
+            color: #00315c;
+            margin-bottom: 1.5rem;
+            border-left: 6px solid #ff8c42;
+            padding-left: 1rem;
+        }
+        .requirements-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        .requirements-col li {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .requirements-col li i {
+            color: #000000;
+            font-size: 1.4rem;
+            min-width: 2rem;
+            flex-shrink: 0;
+        }
+        .check {
+            color: #000000;
+            font-weight: 700;
+        }
+        /* Einheitliche Einrückung für den Text */
+        .requirements-col li span {
+            line-height: 1.5;
+        }
+
+        /* Akkordeon für Quellenverzeichnis */
+        .accordion {
+            margin-top: 2rem;
+            background: #e9f0f9;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px -5px rgba(0,0,0,0.1);
+        }
+        .accordion-header {
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0b3d5f;
+            user-select: none;
+        }
+        .accordion-header i {
+            transition: transform 0.2s;
+            font-size: 1.2rem;
+            color: #0f5e96;
+        }
+        .accordion-content {
+            display: none;
+            padding: 0 2rem 1.5rem 2rem;
+            color: #5f7d9c;
+            font-size: 0.9rem;
+        }
+        .accordion.open .accordion-content {
+            display: block;
+        }
+        .accordion.open .accordion-header i {
+            transform: rotate(90deg);
+        }
+        .accordion-content ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 0.8rem;
+        }
+        .accordion-content li {
+            margin-bottom: 0.5rem;
+        }
+        .accordion-content a {
+            color: #0b3d5f;
+            text-decoration: none;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 1rem;
+            color: #5f7d9c;
+            border-top: 2px dashed #b6cfec;
+            padding-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .requirements-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            .hero .sub-subhead {
+                font-size: 1.6rem;
+            }
+            .hero .subhead {
+                font-size: 1.2rem;
+            }
+            .profil-highlight {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,20,40,0.7);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 2rem;
+            max-width: 750px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2.8rem 3rem;
+            box-shadow: 0 40px 70px rgba(0,30,60,0.5);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2.2rem;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #3a5f7a;
+            cursor: pointer;
+            background: none;
+            border: none;
+            line-height: 1;
+        }
+
+        #modal-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0c2e4b;
+            margin-bottom: 1.8rem;
+            border-bottom: 4px solid #cdddec;
+            padding-bottom: 0.8rem;
+        }
+
+        #modal-body {
+            font-size: 1.15rem;
+            color: #1e3b55;
+        }
+
+        #modal-body ul {
+            margin-left: 1.5rem;
+            margin-top: 0.8rem;
+        }
+        
+        .hidden-detail {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Hero: neue Überschrift -->
+    <div class="hero">
+        <h1>IT-Verfahrensbetrieb im LRZS</h1>
+        <div class="sub-subhead">für BIENE und VO</div>
+        <div class="subhead">
+            <i class="fas fa-rocket"></i> Meine Bewerbung als Sachbearbeiter IT-Verfahrensbetreuung – 
+            <strong>Mission: Sichere und stabile Steuer-IT</strong>
+        </div>
+    </div>
+
+    <!-- Persönliche Visitenkarte – Warum ich die richtige Person bin -->
+    <div class="profil-highlight">
+        <div class="profil-icon">
+            <i class="fas fa-user-check"></i>
+        </div>
+        <div class="profil-text">
+            <h2>Warum ich die richtige Person für BIENE & VO bin</h2>
+            <p>✔ <strong>Akademischer Hintergrund:</strong> Geoinformatik-Studium (HTW Dresden) – fundierte IT-Grundlagen.<br>
+            ✔ <strong>Zusatzqualifikation:</strong> Fachinformatiker Anwendungsentwicklung (IHK) – Praxis in Softwareentwicklung, Testing, Debugging.<br>
+            ✔ <strong>Administration & Automatisierung:</strong> Debian-Linux, Bash, Python, Docker-Container, Webserver, Loadbalancing.<br>
+            ✔ <strong>Datenbanken:</strong> PostgreSQL (Administration, Backup, Monitoring), SQL für Plausibilitätsprüfungen.<br>
+            ✔ <strong>Versionsverwaltung & Kollaboration:</strong> Git, GitLab in Arbeitsgruppen, Dokumentation mit MediaWiki / Confluence.<br>
+            ✔ <strong>Verfahrensbetrieb & Test:</strong> Konfiguration, Testdurchführung, Qualitätssicherung, Fehleranalyse, Dokumentation.<br>
+            ✔ <strong>Zusammenarbeit:</strong> Enge Kommunikation mit Entwicklern (intern/extern), gemeinsames Debugging, Abstimmung von Lastenheften.<br>
+            ✔ <strong>Grundverständnis Steuerabläufe:</strong> Durch gezielte Einarbeitung mit den Prozessen in Festsetzung, Erhebung, Stundung und Vollstreckung vertraut.<br>
+            ✔ <strong>Motivation:</strong> Ich suche eine langfristige berufliche Perspektive im IT-Bereich mit sinnstiftender Tätigkeit im öffentlichen Dienst, in der ich mich fachlich und persönlich weiterentwickeln kann.</p>
+            <span class="tagline"><i class="fas fa-bolt"></i> IT-Profi mit ganzheitlichem Blick – von der Infrastruktur bis zur Fachanwendung</span>
+        </div>
+    </div>
+
+    <!-- ========== HISTORIE & GRUNDLAGEN ========== -->
+    <div class="section-title">
+        <i class="fas fa-history"></i> Historie & Grundlagen: Von FISCUS zu KONSENS
+    </div>
+    <div class="kachel-grid">
+        <div class="card">
+            <h3>FISCUS & fiscus GmbH<span class="footnote-ref">[1]</span></h3>
+            <div class="kurztext">1991–2006: Erste gescheiterte Versuche einer Vereinheitlichung der Steuer-IT. Jedes Land programmierte eigene Teile, die Koordination misslang.</div>
+            <button class="detail-btn" data-detail="historie1">Mehr erfahren →</button>
+        </div>
+        <div class="card">
+            <h3>KONSENS-Abkommen 2007<span class="footnote-ref">[2]</span></h3>
+            <div class="kurztext">Fünf Länder entwickeln für alle – Geburtsstunde des EfA-Prinzips in der Steuerverwaltung. Langfristiges Ziel: 19 moderne Verfahren statt 200 Einzellösungen.</div>
+            <button class="detail-btn" data-detail="historie2">Mehr erfahren →</button>
+        </div>
+        <div class="card">
+            <h3>E-Government-Gesetze & EfA<span class="footnote-ref">[3]</span></h3>
+            <div class="kurztext">Ab 2013 verpflichten EGovG und OZG zur elektronischen Verwaltung. Das EfA-Prinzip wird bundesweiter Standard – KONSENS ist hier Vorreiter.</div>
+            <button class="detail-btn" data-detail="egov">Mehr erfahren →</button>
+        </div>
+    </div>
+
+    <!-- ========== EFA & LÄNDERZUSTÄNDIGKEITEN ========== -->
+    <div class="section-title">
+        <i class="fas fa-handshake"></i> EfA-Prinzip und Länderzuständigkeiten<span class="footnote-ref">[4]</span>
+    </div>
+    <div class="kachel-grid">
+        <div class="card">
+            <h3>EfA – „Einer für Alle“</h3>
+            <div class="kurztext">Ein Bundesland entwickelt ein Verfahren federführend, alle anderen nutzen es. So werden Mehrfachentwicklungen vermieden und einheitliche Standards geschaffen.</div>
+            <button class="detail-btn" data-detail="efa">Mehr erfahren →</button>
+        </div>
+        <div class="card">
+            <h3>Die fünf entwickelnden Länder<span class="footnote-ref">[5]</span></h3>
+            <div class="kurztext">Baden-Württemberg, Bayern, Hessen, Niedersachsen, Nordrhein-Westfalen entwickeln im Auftrag aller. Die Steuerungsgruppe IT steuert strategisch.</div>
+            <button class="detail-btn" data-detail="laender">Mehr erfahren →</button>
+        </div>
+        <div class="card">
+            <h3>Federführungen im Überblick</h3>
+            <div class="kurztext">Bayern: BIENE, ELSTER · Niedersachsen: VO, BIENE · Hessen: GINSTER · BaWü, BY, NRW: ELFE · NRW: Basisinfrastruktur</div>
+            <button class="detail-btn" data-detail="federfuehrung">Mehr erfahren →</button>
+        </div>
+    </div>
+
+    <!-- ========== DREI KERNVERFAHREN + ELSTER + WEITERE ========== -->
+    <div class="section-title">
+        <i class="fas fa-cubes"></i> Die 19 KONSENS-Verfahren<span class="footnote-ref">[6]</span>
+    </div>
+    <div class="kachel-grid">
+        <!-- ELSTER -->
+        <div class="card">
+            <h3>ELSTER<span class="footnote-ref">[7]</span></h3>
+            <div class="kurztext">Elektronische Steuererklärung – größte E-Government-Anwendung Deutschlands. Portal für Bürger, Unternehmen, Steuerberater.</div>
+            <button class="detail-btn" data-detail="elster">Mehr erfahren →</button>
+        </div>
+        <!-- KERNVERFAHREN 1: ELFE -->
+        <div class="card">
+            <h3>ELFE<span class="footnote-ref">[8]</span></h3>
+            <div class="kurztext"><strong>Kernverfahren:</strong> Verarbeitet Eingangsdaten, berechnet Steuerschuld, erstellt Bescheide.</div>
+            <button class="detail-btn" data-detail="elfe">Mehr erfahren →</button>
+        </div>
+        <!-- KERNVERFAHREN 2: BIENE -->
+        <div class="card">
+            <h3>BIENE<span class="footnote-ref">[9]</span></h3>
+            <div class="kurztext"><strong>Kernverfahren:</strong> Verwaltet Zahlungsverkehr, Fälligkeiten, Mahnungen, Buchführung, Bankverkehr.</div>
+            <button class="detail-btn" data-detail="biene">Mehr erfahren →</button>
+        </div>
+        <!-- KERNVERFAHREN 3: GINSTER -->
+        <div class="card">
+            <h3>GINSTER<span class="footnote-ref">[10]</span></h3>
+            <div class="kurztext"><strong>Kernverfahren:</strong> Grundinformationsdienst – zentrale Verwaltung von Name, Adresse, Bankverbindung.</div>
+            <button class="detail-btn" data-detail="ginster">Mehr erfahren →</button>
+        </div>
+        <!-- VO-System -->
+        <div class="card">
+            <h3>VO‑System<span class="footnote-ref">[11]</span></h3>
+            <div class="kurztext">Automatisiertes Vollstreckungsverfahren – Pfändungen, Mahnläufe, Bankkommunikation, eAkte. Eng verzahnt mit BIENE.</div>
+            <button class="detail-btn" data-detail="vo">Mehr erfahren →</button>
+        </div>
+        <!-- Weitere 14 Verfahren -->
+        <div class="card">
+            <h3>+ 14 weitere Verfahren</h3>
+            <div class="kurztext">Insgesamt 19 IT-Verfahren. Dazu zählen MÜSt, BuStra/Steufa, DAME, StundE, EinS u.v.m.<span class="footnote-ref">[12]</span></div>
+            <button class="detail-btn" data-detail="weitere">Alle im Überblick →</button>
+        </div>
+    </div>
+
+    <!-- ========== STELLENANFORDERUNGEN & MEINE PASSUNG ========== -->
+    <div class="section-title">
+        <i class="fas fa-clipboard-check"></i> Die Anforderungen der Stelle – und wie ich sie erfülle
+    </div>
+    <div class="requirements-grid">
+        <div class="requirements-col">
+            <h3>📍 Gefordert wird<span class="footnote-ref">[13]</span></h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> <span>Betreuung von VoSystem, BIENE, Erhebungsverfahren</span></li>
+                <li><i class="fas fa-check-circle"></i> <span>Einsatzvorbereitung, Test, Dokumentation, Ergebnisprüfung</span></li>
+                <li><i class="fas fa-check-circle"></i> <span>Fehlerbehandlung, Anwenderbetreuung (Finanzämter)</span></li>
+                <li><i class="fas fa-check-circle"></i> <span>Kommunikation mit programmierenden Stellen</span></li>
+                <li><i class="fas fa-check-circle"></i> <span>Überwachung Probeberechnung, Erhebungsrechentermin</span></li>
+                <li><i class="fas fa-check-circle"></i> <span>Sonderläufe, Datenauswertungen</span></li>
+                <li><i class="fas fa-check-circle"></i> <span>Mitarbeit in Bundesarbeitsgruppen, Vertretung Sachsens</span></li>
+                <li><i class="fas fa-check-circle"></i> <span>Linux-Kenntnisse, Verständnis für IT-Systeme</span></li>
+                <li><i class="fas fa-check-circle"></i> <span>Kenntnisse der Abläufe im Finanzamt (Erhebungsbezirk/Finanzkasse)</span></li>
+                <li><i class="fas fa-check-circle"></i> <span>Projektarbeit, analytisches Denken, Teamfähigkeit</span></li>
+            </ul>
+        </div>
+        <div class="requirements-col">
+            <h3>✅ Meine Qualifikation</h3>
+            <ul>
+                <li><i class="fas fa-check-circle check"></i> <span><strong>Studium:</strong> Geoinformatik (HTW Dresden) – starke IT-Basis</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span><strong>IHK-Abschluss:</strong> Fachinformatiker Anwendungsentwicklung</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span><strong>Administration:</strong> Debian-Linux, PostgreSQL, Docker, Webserver, Loadbalancing</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span><strong>Automatisierung:</strong> Bash, Python, Automatisierung von Abläufen</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span><strong>Versionsverwaltung:</strong> Git, GitLab in Arbeitsgruppen</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span><strong>Dokumentation:</strong> MediaWiki, Confluence – strukturierte Wissensweitergabe</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span><strong>Verfahrensbetrieb:</strong> Konfiguration, Testing, Plausibilitätsprüfungen, Fehleranalyse</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span><strong>Zusammenarbeit:</strong> Enge Kommunikation mit Softwareentwicklern, gemeinsames Debugging</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span>Überwachung von Batch-Läufen, Soll/Ist-Abgleiche, Monitoring</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span>Mitarbeit in länderübergreifenden Arbeitsgruppen</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span><strong>Grundverständnis Steuerabläufe:</strong> Durch Einarbeitung mit Festsetzung, Erhebung, Stundung, Vollstreckung vertraut</span></li>
+                <li><i class="fas fa-check-circle check"></i> <span>Projekterfahrung, selbstständige, strukturierte Arbeitsweise</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ========== MEINE SCHNITTMENGE ========== -->
+    <div class="section-title">
+        <i class="fas fa-user-graduate"></i> Meine berufliche Schnittmenge mit BIENE & VO
+    </div>
+    <div class="profil-highlight" style="margin-top:0; background: linear-gradient(135deg, #ffffff 0%, #f2f9ff 100%); border-radius: 1rem;">
+        <div class="profil-icon" style="background:#0f5e96;">
+            <i class="fas fa-tasks"></i>
+        </div>
+        <div class="profil-text">
+            <h2 style="color:#0f5e96;">Das bringe ich mit – genau für diese Stelle</h2>
+            <p style="font-size:1.2rem; line-height:1.6;">
+            ✅ <strong>Akademische & berufliche IT-Ausbildung:</strong> Geoinformatik (HTW) + Fachinformatiker Anwendungsentwicklung (IHK).<br>
+            ✅ <strong>Infrastruktur & Automatisierung:</strong> Debian, PostgreSQL, Docker, Bash, Python – alles aus einer Hand.<br>
+            ✅ <strong>Kollaboration & Dokumentation:</strong> Git, GitLab in Arbeitsgruppen, MediaWiki / Confluence für Wissensmanagement.<br>
+            ✅ <strong>Verfahrensbetrieb & Testing:</strong> Konfiguration, Testdurchführung, Qualitätssicherung, Dokumentation, Fehleranalyse und Debugging – allein und im Team.<br>
+            ✅ <strong>Schnittstelle zu Entwicklern:</strong> Enge Zusammenarbeit mit internen und externen Softwareentwicklern bei Verfahrensentwicklung, Plausibilitätsprüfungen und Fehlerbehebung.<br>
+            ✅ <strong>Betriebliche Prozesse:</strong> Überwachung von Batch-Läufen, Soll/Ist-Abgleiche, Datenauswertungen, Vorbereitung von Sonderläufen.<br>
+            ✅ <strong>Grundverständnis Steuerfach:</strong> Durch gezielte Einarbeitung mit den Abläufen in Festsetzung, Erhebung, Stundung und Vollstreckung vertraut.<br>
+            ✅ <strong>Team & Gremien:</strong> Erfahrung in länderübergreifenden Arbeitsgruppen, Abstimmung mit Fachbereichen und externen Dienstleistern.
+            </p>
+            <span class="tagline" style="background:#0f5e96; color:white; border:none;"><i class="fas fa-star"></i> IT-Profi mit umfassendem technischen Fundament und erarbeitetem Fachwissen</span>
+        </div>
+    </div>
+
+    <!-- ========== QUELLEN ========== -->
+    <div class="accordion" id="quellenAccordion">
+        <div class="accordion-header">
+            <i class="fas fa-chevron-right"></i>
+            <span><i class="fas fa-book-open"></i> Quellen und Nachweise (anklicken zum Aufklappen)</span>
+        </div>
+        <div class="accordion-content">
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li>[1] Vgl. Littmann/Bitz/Pust, Das Einkommensteuerrecht, § 5b Rn. 1 (EL 184, 10/2025) – Darstellung der Historie von FISCUS .</li>
+                <li>[2] Abkommen zur Regelung der Zusammenarbeit im Vorhaben KONSENS v. 2007; Monatsbericht des BMF Juni 2011, S. 45 ff.; KONSENS-Gesetz v. 14.8.2017, BGBl. I S. 3129 .</li>
+                <li>[3] E-Government-Gesetz des Bundes v. 2013; Onlinezugangsgesetz (OZG) 2017; SteuerbürokratieabbauG v. 20.12.2008, BGBl I 2008, 2850 .</li>
+                <li>[4] § 4 KONSENS-Gesetz – Entwicklung von IT-Verfahren und Software .</li>
+                <li>[5] § 9 KONSENS-Gesetz – Steuerungsgruppe Informationstechnik (Baden-Württemberg, Bayern, Hessen, Niedersachsen, Nordrhein-Westfalen) .</li>
+                <li>[6] <a href="https://www.steuer-it-konsens.de" target="_blank">steuer-it-konsens.de</a> – Die Verfahren: Made by KONSENS (19 Verfahren im operativen Kern) .</li>
+                <li>[7] <a href="https://www.steuer-it-konsens.de" target="_blank">KONSENS</a> – ELSTER (Federführung Bayern) .</li>
+                <li>[8] <a href="https://www.steuer-it-konsens.de" target="_blank">KONSENS</a> – ELFE (zuständige Länder: BaWü, Bayern, NRW) .</li>
+                <li>[9] <a href="https://www.steuer-it-konsens.de" target="_blank">KONSENS</a> – BIENE (Bayern und Niedersachsen, Verfahrensmanagement Bayern) .</li>
+                <li>[10] <a href="https://www.steuer-it-konsens.de" target="_blank">KONSENS</a> – GINSTER; vgl. auch HZD, "EinS im KONSENS-Verbund", 13.1.2026 .</li>
+                <li>[11] Landesamt für Steuern Niedersachsen – Verfahrensbetreuung (VO-System, BIENE) ; <a href="https://www.steuer-it-konsens.de" target="_blank">KONSENS</a> (Federführung Niedersachsen).</li>
+                <li>[12] Weitere Verfahren: MÜSt (Bayern), BuStra/Steufa (Niedersachsen), DAME (BaWü, Bayern, NRW), StundE, EinS u.a. .</li>
+                <li>[13] Anforderungen basierend auf der Stellenausschreibung des LRZS sowie vergleichbaren Profilen der Verfahrensbetreuung .</li>
+            </ul>
+            <p style="margin-top:1rem;"><i class="fas fa-external-link-alt"></i> Alle Internetquellen zuletzt abgerufen am 15. Februar 2026.</p>
+        </div>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <div class="footer-note">
+        ⚙️ Konzipiert für meine Bewerbung als IT-Verfahrensbetreuer BIENE & VO im LRZS · 2026
+    </div>
+</div>
+
+<!-- ========== HIDDEN DETAILS (für Modals) ========== -->
+<div class="hidden-detail" id="historie1">
+    <h4>FISCUS & fiscus GmbH</h4>
+    <p>Bereits 1991 wurde mit <strong>FISCUS</strong> der erste Versuch gestartet, die Steuer-IT zu vereinheitlichen – jedes Land übernahm Programmieraufgaben, was an mangelnder Koordination scheiterte. 2001 folgte die privatwirtschaftlich organisierte <strong>fiscus GmbH</strong>, die ebenfalls nicht die gewünschte Einheitlichkeit brachte. Die Erfahrungen führten 2007 zum neuen Ansatz KONSENS .</p>
+</div>
+<div class="hidden-detail" id="historie2">
+    <h4>KONSENS-Abkommen 2007</h4>
+    <p>Das Verwaltungsabkommen KONSENS (Kooperative Steuerverwaltung) trat 2007 in Kraft. Fünf Länder – Baden-Württemberg, Bayern, Hessen, Niedersachsen und Nordrhein-Westfalen – übernahmen die Entwicklung für alle. Das Prinzip „Einer für Alle“ (EfA) wurde geboren. Ziel: Die über 200 alten, länderspezifischen Verfahren durch 19 moderne, bundesweit einheitliche Verfahren zu ersetzen. Das KONSENS-Gesetz von 2017 schuf die verbindliche Rechtsgrundlage .</p>
+</div>
+<div class="hidden-detail" id="egov">
+    <h4>E-Government-Gesetze & EfA</h4>
+    <p>Das E-Government-Gesetz des Bundes (2013) und die folgenden Landesgesetze verpflichten Behörden zur elektronischen Verwaltung. Das Onlinezugangsgesetz (OZG, 2017) machte das EfA-Prinzip zum Standard für alle Verwaltungsleistungen. KONSENS praktizierte dieses Prinzip bereits seit 2007 – ein echter Vorreiter. Bereits das SteuerbürokratieabbauG 2008 hatte den Weg zur elektronischen Kommunikation geebnet .</p>
+</div>
+<div class="hidden-detail" id="efa">
+    <h4>EfA-Prinzip im Detail</h4>
+    <p>„Einer für Alle“ bedeutet: Ein Land entwickelt federführend, alle anderen nutzen die fertige Lösung. Das vermeidet Mehrfachentwicklungen, spart Kosten und stellt Einheitlichkeit sicher. In KONSENS wird dies durch gemeinsame Anforderungsdokumente (Lastenhefte) und enge Abstimmung in der Steuerungsgruppe IT realisiert (§ 4 KONSENS-G) .</p>
+</div>
+<div class="hidden-detail" id="laender">
+    <h4>Die fünf entwickelnden Länder</h4>
+    <p>Baden-Württemberg, Bayern, Hessen, Niedersachsen und Nordrhein-Westfalen entwickeln im Auftrag des Bundes und aller Länder. In der Steuerungsgruppe IT (Stgr-IT) legen sie Prioritäten und Strategie fest (§ 9 KONSENS-G). Die anderen elf Länder (darunter Sachsen) finanzieren mit, bringen ihre Anforderungen über Bundesarbeitsgruppen ein und setzen die Verfahren ein .</p>
+</div>
+<div class="hidden-detail" id="federfuehrung">
+    <h4>Federführungen im Überblick</h4>
+    <ul>
+        <li><strong>Bayern:</strong> BIENE (mit Niedersachsen), ELSTER, MÜSt, Grundsteuer</li>
+        <li><strong>Niedersachsen:</strong> VO-System, BuStra/Steufa, BIENE (mit Bayern)</li>
+        <li><strong>Hessen:</strong> GINSTER (Grundinformationsdienst Steuer) </li>
+        <li><strong>Baden-Württemberg, Bayern, NRW:</strong> ELFE, DAME (Data Warehouse) </li>
+        <li><strong>Nordrhein-Westfalen:</strong> Basisinfrastruktur, Identity-Management</li>
+    </ul>
+</div>
+<div class="hidden-detail" id="elster">
+    <h4>ELSTER – Elektronische Steuererklärung</h4>
+    <p>ELSTER ist die größte E-Government-Anwendung Deutschlands. Über das Portal können Bürger, Unternehmen und Steuerberater Steuererklärungen elektronisch übermitteln, Bescheide abrufen und Voranmeldungen versenden. ELSTER stellt auch Schnittstellen (ERiC) für Steuersoftware bereit. Federführung: Bayern .</p>
+</div>
+<div class="hidden-detail" id="elfe">
+    <h4>ELFE – Einheitliche länderübergreifende Festsetzung</h4>
+    <p>ELFE ist eines der drei Kernverfahren. Es verarbeitet die über ELSTER eingehenden Daten, berechnet die Steuerschuld und erstellt den Steuerbescheid. Zuständige Länder: Baden-Württemberg, Bayern, Nordrhein-Westfalen (Verfahrensmanagement Bayern). ELFE sorgt für bundesweit einheitliche Steuerfestsetzung .</p>
+</div>
+<div class="hidden-detail" id="biene">
+    <h4>BIENE – Bundeseinheitliche integrierte evolutionäre Neuentwicklung der Erhebung</h4>
+    <p>BIENE ist das Kernverfahren für die Steuererhebung. Es bildet den gesamten Zahlungsverkehr ab: Fälligkeiten, Ein- und Auszahlungen, Mahnungen, Erstattungen, Verjährungen, Buchführung und Bankverkehr. BIENE ist eng mit dem VO-System verzahnt. Zuständig: Bayern und Niedersachsen (Verfahrensmanagement Bayern) .</p>
+</div>
+<div class="hidden-detail" id="ginster">
+    <h4>GINSTER – Grundinformationsdienst Steuer</h4>
+    <p>GINSTER ist das Kernverfahren für das Stammdatenmanagement. Es verwaltet zentral Name, Adresse, Bankverbindung und weitere Grunddaten der Steuerpflichtigen. Ohne korrekte Stammdaten könnten Bescheide nicht adressiert und Zahlungen nicht zugeordnet werden. GINSTER ist bereits in allen Bundesländern im Einsatz. Zuständig: Hessen (HZD) .</p>
+</div>
+<div class="hidden-detail" id="vo">
+    <h4>VO‑System (Vollstreckung)</h4>
+    <p>Das VO‑System automatisiert die Beitreibung offener Steuerforderungen: Pfändungen (Konto, Sach, Forderung), Mahnläufe, Erstattungen, Kommunikation mit Banken und Drittschuldnern sowie elektronische Aktenführung. Es wird in den meisten Ländern eingesetzt und ist eng mit BIENE verzahnt. Federführung: Niedersachsen .</p>
+</div>
+<div class="hidden-detail" id="weitere">
+    <h4>Die 19 KONSENS-Verfahren (Überblick)</h4>
+    <p>Neben den drei Kernverfahren (ELFE, BIENE, GINSTER) und ELSTER umfasst KONSENS unter anderem :</p>
+    <ul>
+        <li><strong>MÜSt:</strong> Überwachung von Steuerfällen, Erinnerungen, Zwangsgelder (Bayern)</li>
+        <li><strong>BuStra/Steufa:</strong> Bußgeld- und Strafsachen, Steuerfahndung (Niedersachsen)</li>
+        <li><strong>DAME:</strong> Data Warehouse, Auswertungen, Business Intelligence (BaWü, Bayern, NRW)</li>
+        <li><strong>StundE:</strong> Stundung, Erlass, Aussetzung der Vollziehung</li>
+        <li><strong>EinS:</strong> Einheitliche Suche (Hessen) – neues Recherchetool </li>
+        <li><strong>RABE:</strong> Referenzierung auf Belege (für elektronische Belege) </li>
+        <li>VO (Vollstreckung), weitere Verfahren für Betriebsprüfung, Grundbesitz, Umsatzsteuer-Sonderprüfung u.v.m.</li>
+    </ul>
+    <p>Ziel ist die Ablösung der alten länderspezifischen Verfahren durch diese 19 einheitlichen Systeme.</p>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <button class="close-btn" id="modalClose">&times;</button>
+        <h3 id="modal-title">Titel</h3>
+        <div id="modal-body">Inhalt</div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Modal-Funktionalität (unverändert)
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const closeBtn = document.getElementById('modalClose');
+        const detailButtons = document.querySelectorAll('.detail-btn');
+
+        function openModal(detailId, clickedButton) {
+            const detailDiv = document.getElementById(detailId);
+            if (!detailDiv) return;
+            const card = clickedButton.closest('.card');
+            const title = card ? card.querySelector('h3').innerText : 'Details';
+            const cleanTitle = title.replace(/\[\d+\]/g, '').trim();
+            modalTitle.innerText = cleanTitle;
+            modalBody.innerHTML = detailDiv.innerHTML;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        detailButtons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const detailId = this.getAttribute('data-detail');
+                if (detailId) openModal(detailId, this);
+            });
+        });
+
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Akkordeon für Quellen
+        const accordion = document.getElementById('quellenAccordion');
+        const header = accordion.querySelector('.accordion-header');
+        header.addEventListener('click', function() {
+            accordion.classList.toggle('open');
+        });
+    })();
+</script>
+</body>
+</html>
+```
