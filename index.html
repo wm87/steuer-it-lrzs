@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT-Verfahrensbetrieb im LRZS · BIENE & VO</title>
-    <!-- Font Awesome für Icons -->
+    <!-- Font Awesome für Icons (nur Bildschirm) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* ===== Basis & Reset ===== */
         * {
             margin: 0;
             padding: 0;
@@ -27,10 +28,46 @@
             margin: 0 auto;
         }
 
-        /* Hero-Bereich */
+        /* ===== Export-Button ===== */
+        .export-wrapper {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .export-btn {
+            background: #005a9c;
+            color: white;
+            border: none;
+            border-radius: 0;
+            /* eckig */
+            padding: 0.9rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 6px 14px rgba(0, 40, 70, 0.35);
+            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.3px;
+        }
+
+        .export-btn:hover {
+            background: #003f6b;
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 40, 70, 0.4);
+        }
+
+        .export-btn i {
+            font-size: 1.4rem;
+        }
+
+        /* ===== Hero ===== */
         .hero {
             background: white;
-            border-radius: 2rem;
+            border-radius: 0;
+            /* eckig */
             padding: 3rem 3.5rem;
             margin-bottom: 3rem;
             box-shadow: 0 30px 60px -15px rgba(0, 60, 100, 0.3);
@@ -68,7 +105,8 @@
             margin-bottom: 1.5rem;
             position: relative;
             z-index: 1;
-            border-left: 4px solid #ff8c42;
+            border-left: 4px solid #1f6e9c;
+            /* blau */
             padding-left: 1.5rem;
         }
 
@@ -80,7 +118,8 @@
             font-weight: 500;
             background: rgba(255, 140, 66, 0.05);
             padding: 1.2rem 2rem;
-            border-radius: 60px;
+            border-radius: 0;
+            /* eckig */
             display: inline-block;
             position: relative;
             z-index: 1;
@@ -97,9 +136,11 @@
             font-weight: 700;
         }
 
+        /* ===== Profil-Highlight (für alle Abschnitte mit Icon + Text) ===== */
         .profil-highlight {
             background: #ffffff;
-            border-radius: 1rem;
+            border-radius: 0;
+            /* eckig */
             padding: 2rem 2.5rem;
             margin-bottom: 3rem;
             box-shadow: 0 15px 30px -10px rgba(0, 60, 110, 0.2);
@@ -113,7 +154,8 @@
             background: #0b3d5f;
             width: 90px;
             height: 90px;
-            border-radius: 50%;
+            border-radius: 0;
+            /* eckig */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -143,12 +185,42 @@
         .profil-text .tagline {
             background: #e3f0fa;
             padding: 0.75rem 1.5rem;
-            border-radius: 60px;
+            border-radius: 0;
+            /* eckig */
             display: inline-block;
             font-weight: 600;
             color: #003a66;
         }
 
+        /* Listen innerhalb von .profil-text */
+        .profil-text ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            padding-left: 0;
+        }
+
+        .profil-text li {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: baseline;
+            font-size: 1.05rem;
+        }
+
+        .profil-text li i {
+            color: #000000;
+            font-size: 1.4rem;
+            min-width: 2rem;
+            flex-shrink: 0;
+            text-align: left;
+        }
+
+        .profil-text li span {
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        /* ===== Section-Überschriften ===== */
         .section-title {
             font-size: 2rem;
             font-weight: 600;
@@ -166,6 +238,7 @@
             font-size: 2rem;
         }
 
+        /* ===== Kachel-Grid ===== */
         .kachel-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -173,19 +246,20 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(6px);
-            border-radius: 1.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0;
+            /* eckig */
             padding: 1.8rem 1.5rem;
-            box-shadow: 0 12px 28px -10px rgba(0, 50, 80, 0.15);
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 20px -8px rgba(0, 50, 80, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: flex;
             flex-direction: column;
+            will-change: transform, box-shadow;
         }
 
         .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 22px 38px -12px #1b4f7a80;
+            transform: translateY(-4px);
+            box-shadow: 0 18px 30px -12px #1b4f7a;
             background: white;
         }
 
@@ -198,30 +272,23 @@
             padding-left: 1rem;
         }
 
-        /* Listen in Cards einheitlich gestalten */
+        /* Icons in Kachel-Überschriften wurden entfernt – nur reiner Text */
+
+        /* Standard-Listen in Kacheln: normale Bullets */
         .card ul {
-            list-style: none;
-            padding: 0;
+            list-style: disc;
+            padding-left: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
         .card li {
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
+            margin-bottom: 0.5rem;
             font-size: 1.05rem;
         }
 
         .card li i {
-            color: #000000;
-            font-size: 1.4rem;
-            min-width: 2rem;
-            flex-shrink: 0;
-        }
-
-        .card li span {
-            line-height: 1.5;
+            display: none;
+            /* Icons in Kachel-Listen werden nicht mehr verwendet */
         }
 
         .card button {
@@ -231,7 +298,8 @@
             font-weight: 650;
             font-size: 1rem;
             padding: 0.8rem 1.5rem;
-            border-radius: 50px;
+            border-radius: 0;
+            /* eckig */
             cursor: pointer;
             transition: all 0.15s;
             align-self: flex-start;
@@ -245,10 +313,11 @@
             box-shadow: 0 12px 18px -8px #00325c;
         }
 
-        /* GitHub-Button */
+        /* ===== GitHub CTA ===== */
         .github-cta {
             background: #f5f8fc;
-            border-radius: 1.5rem;
+            border-radius: 0;
+            /* eckig */
             padding: 1.8rem 2.5rem;
             margin: 2.5rem 0 2rem;
             display: flex;
@@ -275,13 +344,25 @@
 
         .github-cta .cta-text p {
             font-size: 1.1rem;
-            opacity: 0.8;
+            margin-top: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .github-cta .cta-text a {
+            color: #005a9c;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .github-cta .cta-text a:hover {
+            text-decoration: underline;
         }
 
         .github-cta .cta-button {
             background: #24292e;
             padding: 1rem 2.5rem;
-            border-radius: 3rem;
+            border-radius: 0;
+            /* eckig */
             font-size: 1.3rem;
             font-weight: 600;
             color: white;
@@ -302,15 +383,17 @@
             transform: scale(1.02);
         }
 
+        /* ===== Zitat-Block ===== */
         .zitat-block {
             background: white;
-            border-radius: 1.5rem;
+            border-radius: 0;
+            /* eckig */
             padding: 1.8rem 2.5rem;
             margin: 2.5rem 0;
             box-shadow: 0 15px 25px -10px rgba(0, 60, 110, 0.1);
             text-align: center;
-            border-left: 6px solid #ff8c42;
-            border-right: 6px solid #ff8c42;
+            border-left: 6px solid #1f6e9c;
+            /* blau */
         }
 
         .zitat-block i {
@@ -336,10 +419,12 @@
             font-weight: 600;
         }
 
+        /* ===== Accordion ===== */
         .accordion {
             margin-top: 2rem;
             background: #e9f0f9;
-            border-radius: 1rem;
+            border-radius: 0;
+            /* eckig */
             box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
         }
 
@@ -391,6 +476,7 @@
             text-decoration: none;
         }
 
+        /* ===== Footer ===== */
         .footer-note {
             text-align: center;
             margin-top: 4rem;
@@ -400,6 +486,12 @@
             padding-top: 2rem;
         }
 
+        /* ===== Druck-Container (wird nur im Print gefüllt) ===== */
+        #print-details-container {
+            display: none;
+        }
+
+        /* ===== Responsive ===== */
         @media (max-width: 900px) {
             .hero h1 {
                 font-size: 2.4rem;
@@ -413,18 +505,61 @@
                 font-size: 1.2rem;
             }
 
-            .profil-highlight {
-                flex-direction: column;
-                text-align: center;
-            }
-
+            .profil-highlight,
             .github-cta {
                 flex-direction: column;
-                text-align: center;
+                text-align: left;
+            }
+
+            .profil-highlight .profil-icon {
+                margin-bottom: 1rem;
+            }
+
+            .github-cta .cta-button {
+                align-self: flex-start;
+            }
+
+            /* Hero-Emoji ausblenden */
+            .hero::before {
+                display: none;
+            }
+
+            /* Mobile: Icons in Listen ausblenden, stattdessen normale Bullets */
+            .profil-text ul {
+                list-style: disc;
+                padding-left: 1.5rem;
+            }
+
+            .profil-text li {
+                display: list-item;
+                margin-bottom: 0.5rem;
+                gap: 0;
+            }
+
+            .profil-text li i {
+                display: none;
+            }
+
+            .profil-text li span {
+                display: inline;
+            }
+
+            .card ul {
+                list-style: disc;
+                padding-left: 1.5rem;
+            }
+
+            .card li {
+                display: list-item;
+                margin-bottom: 0.5rem;
+            }
+
+            .card li i {
+                display: none;
             }
         }
 
-        /* Modal */
+        /* ===== Modal ===== */
         .modal {
             display: none;
             position: fixed;
@@ -433,7 +568,6 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 20, 40, 0.7);
-            backdrop-filter: blur(8px);
             align-items: center;
             justify-content: center;
             z-index: 1000;
@@ -441,7 +575,8 @@
 
         .modal-content {
             background: white;
-            border-radius: 2rem;
+            border-radius: 0;
+            /* eckig */
             max-width: 750px;
             width: 90%;
             max-height: 80vh;
@@ -483,15 +618,259 @@
             margin-top: 0.8rem;
         }
 
+        /* ===== Versteckte Detail-Container für Modals ===== */
         .hidden-detail {
             display: none;
+        }
+
+        /* ========== VERBESSERTE DRUCK-STYLES ========== */
+        @media print {
+
+            /* Text überall auswählbar machen */
+            * {
+                user-select: text !important;
+                -webkit-user-select: text !important;
+            }
+
+            /* Links blau und unterstrichen (optional) */
+            a {
+                color: #0000ee !important;
+                text-decoration: underline !important;
+            }
+
+            /* Standardmäßig economy für beste Textauswahl */
+            body,
+            body * {
+                -webkit-print-color-adjust: economy !important;
+                print-color-adjust: economy !important;
+                color-adjust: economy !important;
+            }
+
+            /* Nur die Tagline behält ihre Hintergrundfarbe */
+            .tagline {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                background: #e3f0fa !important;
+                color: black !important;
+            }
+
+            body {
+                background: white;
+                padding: 0.3cm;
+                color: black;
+                font-size: 11pt;
+            }
+
+            .container {
+                max-width: 100%;
+                margin: 0;
+            }
+
+            /* Buttons und interaktive Elemente ausblenden */
+            .export-btn,
+            .detail-btn,
+            .cta-button,
+            .close-btn,
+            .accordion-header i {
+                display: none !important;
+            }
+
+            /* Hero Hintergrund entfernen */
+            .hero::before {
+                display: none !important;
+            }
+
+            /* Footer ausblenden */
+            .footer-note {
+                display: none !important;
+            }
+
+            /* Alle Icons und Pseudoelemente von Icons komplett ausblenden */
+            i,
+            .fas,
+            .far,
+            .fab,
+            [class*="fa-"],
+            i::before,
+            .fas::before,
+            .far::before,
+            .fab::before,
+            [class*="fa-"]::before {
+                display: none !important;
+            }
+
+            /* Profil-Icon-Blöcke ausblenden */
+            .profil-icon {
+                display: none !important;
+            }
+
+            /* Rahmen und Abstände kompakt */
+            .card,
+            .profil-highlight,
+            .zitat-block,
+            .github-cta,
+            .hero {
+                box-shadow: none;
+                border: 1px solid #aaa;
+                background: white;
+                page-break-inside: avoid;
+            }
+
+            .hero {
+                padding: 1rem 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+                background: none;
+                -webkit-text-fill-color: black;
+                color: black;
+            }
+
+            .hero .sub-subhead {
+                font-size: 1.3rem;
+                border-left-width: 2px;
+                margin-bottom: 0.8rem;
+            }
+
+            .hero .subhead {
+                font-size: 1.1rem;
+                padding: 0.8rem 1.2rem;
+                background: none;
+                border: 1px solid #ccc;
+            }
+
+            /* Überschrift und folgenden Inhalt zusammenhalten */
+            .section-title {
+                page-break-after: avoid;
+            }
+
+            .section-title+* {
+                page-break-before: avoid;
+                page-break-inside: avoid;
+            }
+
+            /* Listen als normale Listen (mit Bullets) */
+            .card ul,
+            .profil-text ul {
+                list-style: disc !important;
+                padding-left: 1.5rem !important;
+            }
+
+            .card li,
+            .profil-text li {
+                display: list-item !important;
+                margin-bottom: 0.3rem;
+                font-size: 0.95rem;
+            }
+
+            .card li span,
+            .profil-text li span {
+                display: inline;
+            }
+
+            #print-details-container {
+                display: block !important;
+                margin-top: 1.5rem;
+                border-top: 2px solid #333;
+                padding-top: 0.8rem;
+                page-break-before: always;
+            }
+
+            #print-details-container div {
+                page-break-inside: avoid;
+            }
+
+            #print-details-container h2 {
+                font-size: 1.8rem;
+            }
+
+            #print-details-container h3 {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+                margin: 1.5rem 0 0.8rem;
+                border-bottom-width: 2px;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card h3 {
+                font-size: 1.4rem;
+                border-left-width: 3px;
+                margin-bottom: 0.5rem;
+            }
+
+            .card .kurztext {
+                font-size: 0.95rem;
+            }
+
+            .profil-highlight {
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .profil-text h2 {
+                font-size: 1.5rem;
+            }
+
+            .profil-text p {
+                font-size: 1rem;
+            }
+
+            .github-cta {
+                padding: 1rem;
+            }
+
+            .github-cta .cta-text h3 {
+                font-size: 1.4rem;
+            }
+
+            .github-cta .cta-text p {
+                font-size: 0.95rem;
+            }
+
+            .zitat-block {
+                padding: 1rem;
+            }
+
+            .zitat-block .zitat-text {
+                font-size: 1.1rem;
+            }
+
+            .accordion-content {
+                display: block !important;
+                padding: 0.5rem 1rem 1rem;
+            }
+
+            .accordion-header {
+                padding: 0.8rem 1rem;
+                background: #eee;
+                border-bottom: 1px solid #ccc;
+            }
+
+            @page {
+                margin: 1.8cm;
+            }
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
+        <!-- Export-Button oben mittig -->
+        <div class="export-wrapper">
+            <button class="export-btn" id="exportPdfBtn">
+                <i class="fas fa-file-pdf"></i> PDF-Version erstellen
+            </button>
+        </div>
+
         <!-- Hero -->
         <div class="hero">
             <h1>IT-Verfahrensbetreuung im LRZS</h1>
@@ -503,16 +882,16 @@
             </div>
         </div>
 
-        <!-- LRZS -->
+        <!-- Über das LRZS – zentraler IT-Dienstleister -->
         <div class="section-title">
-            <i class="fas fa-building"></i> Das Landesrechenzentrum Steuern (LRZS)
+            <i class="fas fa-building"></i> Über das LRZS – zentraler IT-Dienstleister
         </div>
         <div class="profil-highlight">
             <div class="profil-icon">
                 <i class="fas fa-server"></i>
             </div>
             <div class="profil-text">
-                <h2>Zentraler IT-Dienstleister der Sächsischen Finanzverwaltung</h2>
+                <h2>Über das LRZS</h2>
                 <p>
                     Das LRZS in Dresden ist die zentrale IT-Einrichtung des Freistaates Sachsen für die
                     Finanzverwaltung. Es betreibt die Fachverfahren aller sächsischen Finanzämter, darunter die
@@ -528,43 +907,82 @@
             </div>
         </div>
 
-        <!-- Warum ich die richtige Person bin -->
+        <!-- Ausführliche Motivation als Fließtext (ersetzt die Stichpunkte) -->
         <div class="section-title">
-            <i class="fas fa-user-check"></i> Warum ich die richtige Person bin?
+            <i class="fas fa-heart"></i> Meine Motivation
         </div>
-        <div class="profil-highlight">
-            <div class="profil-icon">
-                <i class="fas fa-user-check"></i>
-            </div>
-            <div class="profil-text">
-                <p>
-                    ✔ <strong>Akademischer Hintergrund:</strong> Geoinformatik-Studium (HTW Dresden) – fundierte
-                    IT-Grundlagen.<br>
-                    ✔ <strong>Zusatzqualifikation:</strong> Fachinformatiker Anwendungsentwicklung (IHK) – Praxis in
-                    Softwareentwicklung, Testing, Debugging.<br>
-                    ✔ <strong>Administration & Automatisierung:</strong> Debian-Linux, Bash, Python, Docker, Webserver,
-                    Loadbalancing.<br>
-                    ✔ <strong>Datenbanken & Versionskontrolle:</strong> PostgreSQL, SQL, Git, GitLab; Dokumentation mit
-                    MediaWiki / Confluence.<br>
-                    ✔ <strong>Verfahrensbetrieb & Test:</strong> Konfiguration, Qualitätssicherung, Fehleranalyse,
-                    Anwenderbetreuung.<br>
-                    ✔ <strong>Team & Kommunikation:</strong> Abstimmung mit Entwicklern, Lastenhefte,
-                    länderübergreifende Arbeitsgruppen.<br>
-                    ✔ <strong>Motivation:</strong> Langfristige Perspektive im IT-Verfahrensbetrieb, sinnstiftende
-                    Tätigkeit im öffentlichen Dienst.
+        <div class="zitat-block" style="text-align: left; border-left-width: 6px; border-right-width: 0;">
+            <div class="zitat-text" style="font-size: 1.2rem; text-align: left;">
+                <p style="margin-bottom: 1rem;">
+                    Der IT-Verfahrensbetrieb der Finanzverwaltung spricht mich besonders an, weil er direkt zur
+                    Stabilität, Sicherheit und Effizienz steuerlicher Verfahren beiträgt und damit Vertrauen in
+                    staatliches Handeln stärkt.
                 </p>
-                <span class="tagline">
-                    <i class="fas fa-bolt"></i> IT-Profi mit ganzheitlichem Blick – von der Infrastruktur bis zur
-                    Fachanwendung
-                </span>
+                <p style="margin-bottom: 1rem;">
+                    Mich fasziniert die Verbindung von technischer Präzision und organisatorischer Verantwortung:
+                    Verfahren wie BIENE oder VO erfordern fachlich korrekte Konfiguration, Qualitätssicherung und ein
+                    Verständnis für komplexe Abläufe.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    Die Arbeit als Schnittstelle zwischen Entwicklung, Fachbereichen, Anwendern und länderübergreifenden
+                    Strukturen entspricht genau meiner analytischen, strukturierten und teamorientierten Arbeitsweise.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    Ich strebe eine langfristige, sinnstiftende Tätigkeit im öffentlichen Dienst an, die operative
+                    Verantwortung mit konzeptioneller Mitwirkung vereint und nachhaltige IT-Lösungen ermöglicht.
+                </p>
+            </div>
+            <div class="zitat-author" style="margin-top: 1.5rem; text-align: left;">
+                – Für eine stabile und zukunftsfähige Finanzverwaltung
             </div>
         </div>
 
-        <!-- Historie & Grundlagen -->
+        <!-- Stellenprofil & meine Passgenauigkeit - Überblick-->
         <div class="section-title">
-            <i class="fas fa-history"></i> Historie & Grundlagen: Von FISCUS zu KONSENS
+            <i class="fas fa-clipboard-check"></i> Stellenprofil & meine Passgenauigkeit - Überblick
         </div>
         <div class="kachel-grid">
+            <!-- Anforderungen-Kachel – ohne Icon, 8 Punkte -->
+            <div class="card">
+                <h3>Anforderungen</h3>
+                <ul>
+                    <li>Betreuung von BIENE, VoSystem</li>
+                    <li>Einsatzvorbereitung, Test, Dokumentation, Ergebnisprüfung</li>
+                    <li>Fehlerbehandlung, Anwenderbetreuung (Finanzämter)</li>
+                    <li>Kommunikation mit programmierenden Stellen</li>
+                    <li>Überwachung Probeberechnung, Erhebungsrechentermin</li>
+                    <li>Sonderläufe, Datenauswertungen</li>
+                    <li>Mitarbeit in Bundesarbeitsgruppen, Vertretung Sachsens</li>
+                    <li>Linux-Kenntnisse, Verständnis für IT-Systeme</li>
+                </ul>
+                <button class="detail-btn" data-detail="more-anforderungen-complete">Alle anzeigen</button>
+            </div>
+            <!-- Qualifikation-Kachel – ohne Icon, 8 fachliche Punkte (angepasster achter Punkt mit INSPIRE) -->
+            <div class="card">
+                <h3>Meine Qualifikation</h3>
+                <ul>
+                    <li><strong>Studium:</strong> Geoinformatik (HTW Dresden) – starke IT-Basis</li>
+                    <li><strong>IHK-Abschluss:</strong> Fachinformatiker Anwendungsentwicklung</li>
+                    <li><strong>Administration:</strong> Debian-Linux, PostgreSQL, Docker, Webserver, Loadbalancing</li>
+                    <li><strong>Automatisierung:</strong> Bash, Python, Automatisierung von Abläufen</li>
+                    <li><strong>Versionsverwaltung:</strong> Git, GitLab in Arbeitsgruppen</li>
+                    <li><strong>Dokumentation:</strong> MediaWiki, Confluence – strukturierte Wissensweitergabe</li>
+                    <li><strong>Verfahrensbetrieb:</strong> Konfiguration, Testing, Plausibilitätsprüfungen,
+                        Fehleranalyse</li>
+                    <li><strong>Zusammenarbeit & Team:</strong> Kommunikation mit Entwicklern und Fachbereichen,
+                        gemeinsames Debugging, Mitarbeit in länderübergreifenden Arbeitsgruppen (z.B. INSPIRE),
+                        Teamarbeit</li>
+                </ul>
+                <button class="detail-btn" data-detail="more-qualifikation-complete">Alle anzeigen</button>
+            </div>
+        </div>
+
+        <!-- Hintergrund: Von FISCUS zu KONSENS – EfA und Länderrollen -->
+        <div class="section-title">
+            <i class="fas fa-history"></i> Hintergrund: Von FISCUS zu KONSENS – EfA und Länderrollen
+        </div>
+        <div class="kachel-grid">
+            <!-- Historie-Kacheln (3) -->
             <div class="card">
                 <h3>FISCUS & fiscus GmbH</h3>
                 <div class="kurztext">1991–2006: Erste gescheiterte Versuche einer Vereinheitlichung der Steuer-IT.
@@ -583,13 +1001,7 @@
                     wird bundesweiter Standard – KONSENS ist hier Vorreiter.</div>
                 <button class="detail-btn" data-detail="egov">Mehr erfahren →</button>
             </div>
-        </div>
-
-        <!-- EfA & Länderzuständigkeiten -->
-        <div class="section-title">
-            <i class="fas fa-handshake"></i> EfA-Prinzip und Länderzuständigkeiten
-        </div>
-        <div class="kachel-grid">
+            <!-- EfA-Kacheln (3) -->
             <div class="card">
                 <h3>EfA – „Einer für Alle“</h3>
                 <div class="kurztext">Ein Bundesland entwickelt ein Verfahren federführend, alle anderen nutzen es. So
@@ -610,9 +1022,9 @@
             </div>
         </div>
 
-        <!-- Die 19 KONSENS-Verfahren -->
+        <!-- Die KONSENS-Verfahren im Überblick -->
         <div class="section-title">
-            <i class="fas fa-cubes"></i> Die 19 KONSENS-Verfahren
+            <i class="fas fa-cubes"></i> Die KONSENS-Verfahren im Überblick
         </div>
         <div class="kachel-grid">
             <div class="card">
@@ -653,112 +1065,59 @@
             </div>
         </div>
 
-        <!-- ========== STELLENANFORDERUNGEN & MEINE QUALIFIKATION ========== -->
-        <div class="section-title">
-            <i class="fas fa-clipboard-check"></i> Die Anforderungen der Stelle und meine Qualifikation
-        </div>
-        <!-- Zwei separate Karten (wie bei ELFE, BIENE etc.) -->
-        <div class="kachel-grid">
-            <!-- Anforderungen Card -->
-            <div class="card">
-                <h3>📍 Anforderungen</h3>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> <span>Betreuung von BIENE, VoSystem</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Einsatzvorbereitung, Test, Dokumentation,
-                            Ergebnisprüfung</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Fehlerbehandlung, Anwenderbetreuung
-                            (Finanzämter)</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Kommunikation mit programmierenden Stellen</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Überwachung Probeberechnung,
-                            Erhebungsrechentermin</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Sonderläufe, Datenauswertungen</span></li>
-                </ul>
-                <button class="detail-btn" data-detail="more-anforderungen-complete">+ weitere Anforderungen</button>
-            </div>
-            <!-- Qualifikation Card -->
-            <div class="card">
-                <h3>✅ Meine Qualifikation</h3>
-                <ul>
-                    <li><i class="fas fa-check-circle check"></i> <span><strong>Studium:</strong> Geoinformatik (HTW
-                            Dresden) – starke IT-Basis</span></li>
-                    <li><i class="fas fa-check-circle check"></i> <span><strong>IHK-Abschluss:</strong> Fachinformatiker
-                            Anwendungsentwicklung</span></li>
-                    <li><i class="fas fa-check-circle check"></i> <span><strong>Administration:</strong> Debian-Linux,
-                            PostgreSQL, Docker, Webserver, Loadbalancing</span></li>
-                    <li><i class="fas fa-check-circle check"></i> <span><strong>Automatisierung:</strong> Bash, Python,
-                            Automatisierung von Abläufen</span></li>
-                    <li><i class="fas fa-check-circle check"></i> <span><strong>Versionsverwaltung:</strong> Git, GitLab
-                            in Arbeitsgruppen</span></li>
-                    <li><i class="fas fa-check-circle check"></i> <span><strong>Dokumentation:</strong> MediaWiki,
-                            Confluence – strukturierte Wissensweitergabe</span></li>
-                </ul>
-                <button class="detail-btn" data-detail="more-qualifikation-complete">+ weitere Qualifikationen</button>
-            </div>
-        </div>
-
-        <!-- Meine berufliche Schnittmenge -->
-        <div class="section-title">
-            <i class="fas fa-user-graduate"></i> Meine berufliche Schnittmenge
-        </div>
-        <div class="profil-highlight"
-            style="margin-top:0; background: linear-gradient(135deg, #ffffff 0%, #f2f9ff 100%); border-radius: 1rem;">
-            <div class="profil-icon" style="background:#0f5e96;">
-                <i class="fas fa-tasks"></i>
-            </div>
-            <div class="profil-text">
-                <h2 style="color:#0f5e96;">Das bringe ich mit</h2>
-                <p style="font-size:1.2rem; line-height:1.6;">
-                    ✅ <strong>IT-Ausbildung:</strong> Geoinformatik (HTW Dresden) + Fachinformatiker
-                    Anwendungsentwicklung
-                    (IHK)<br>
-                    ✅ <strong>Infrastruktur & Automatisierung:</strong> Debian, PostgreSQL, Docker, Bash, Python<br>
-                    ✅ <strong>Kollaboration & Dokumentation:</strong> Git, GitLab, MediaWiki / Confluence<br>
-                    ✅ <strong>Verfahrensbetrieb & Testing:</strong> Konfiguration, Tests, Qualitätssicherung,
-                    Fehleranalyse<br>
-                    ✅ <strong>Schnittstelle zu Entwicklern:</strong> Zusammenarbeit bei Verfahrensentwicklung und
-                    Plausibilitätsprüfung<br>
-                    ✅ <strong>Betriebliche Prozesse:</strong> Batch-Überwachung, Soll/Ist-Abgleiche, Datenauswertung<br>
-                    ✅ <strong>Abläufe & Team:</strong> Grundverständnis der Abläufe, Erfahrung in Arbeitsgruppen und
-                    Abstimmungen
-                </p>
-                <span class="tagline" style="background:#0f5e96; color:white; border:none;">
-                    <i class="fas fa-star"></i> IT-Profi mit technischem Fundament und praxisnaher Fachkompetenz
-                </span>
-            </div>
-        </div>
-
-        <!-- Motivation -->
-        <div class="section-title">
-            <i class="fas fa-quote-right"></i> Was mich antreibt
-        </div>
-        <div class="zitat-block">
-            <div class="zitat-text">
-                „IT im öffentlichen Dienst bedeutet für mich: Mit meiner Arbeit direkt einen Beitrag zu einer
-                funktionierenden und gerechten Gesellschaft zu leisten. Ein stabiler IT-Betrieb ist für mich ein
-                wesentlicher Bestandteil einer verlässlichen Verwaltung.“
-            </div>
-            <div class="zitat-author">Meine Überzeugung für eine sichere und zukunftsfähige Finanzverwaltung</div>
-        </div>
-
         <!-- GitHub Profil -->
         <div class="section-title">
-            <i class="fab fa-github"></i> Mein GitHub-Profil
+            <i class="fab fa-github"></i> Arbeitsproben & Projektdokumentation
         </div>
+
         <div class="github-cta">
             <div class="cta-text">
-                <h3><i class="fab fa-github"></i> Einblick in meine Arbeit</h3>
-                <p>Entdecken Sie meine Projekte, Code-Beispiele und wie ich arbeite. Von Automatisierungsskripten bis zu
-                    Docker-Konfigurationen.
+                <h3><i class="fab fa-github"></i> Transparente Einblicke in meine Arbeitsweise</h3>
+                <p>
+                    Auf meinem GitHub-Profil dokumentiere ich ausgewählte Projekte aus den Bereichen
+                    <strong>Systemadministration, Automatisierung, Datenbanken und Webentwicklung</strong>.
+                </p>
+                <p>
+                    Die Repositories enthalten strukturierte Dokumentation, sauberen Code,
+                    nachvollziehbare Commit-Historien sowie technische Beschreibungen zu
+                    Architektur, Deployment und Testverfahren.
+                </p>
+                <p style="margin-top:1rem;">
+                    <strong>Repository-Übersicht:</strong><br>
+                    <a href="https://github.com/wm87?tab=repositories" target="_blank">
+                        github.com/wm87
+                    </a>
+                </p>
+                <p>
+                    <strong>Ergänzung zum Vorstellungsgespräch:</strong><br>
+                    <a href="https://wm87.github.io/steuer-it-lrzs/" target="_blank">
+                        wm87.github.io/steuer-it-lrzs
+                    </a>
                 </p>
             </div>
+
             <a href="https://github.com/wm87" class="cta-button" target="_blank" rel="noopener">
-                <i class="fab fa-github"></i> Zu GitHub (wm87)
+                <i class="fab fa-github"></i> GitHub-Profil öffnen
             </a>
         </div>
 
-        <!-- Quellen -->
+        <!-- Arbeitsproben-Zitat (jetzt wie Motivation formatiert) -->
+        <div class="zitat-block" style="text-align: left; border-left-width: 6px; border-right-width: 0;">
+            <div class="zitat-text" style="font-size: 1.2rem; text-align: left;">
+                <p style="margin-bottom: 1rem;">
+                    „Meine Projekte sind nicht nur Codebeispiele, sondern zeigen meine strukturierte
+                    Herangehensweise an Systembetrieb, Automatisierung und technische Dokumentation –
+                    genau jene Kompetenzen, die im IT-Verfahrensbetrieb entscheidend sind.“
+                </p>
+            </div>
+            <div class="zitat-author" style="margin-top: 1.5rem; text-align: left;">
+                Arbeitsproben als Ergänzung zu Lebenslauf und Qualifikationsprofil
+            </div>
+        </div>
+
+        <!-- Quellen & weiterführende Links -->
         <div class="section-title">
-            <i class="fas fa-book-open"></i> Verwendete Webseiten
+            <i class="fas fa-book-open"></i> Quellen
         </div>
         <div class="accordion" id="quellenAccordion">
             <div class="accordion-header">
@@ -782,13 +1141,16 @@
             </div>
         </div>
 
+        <!-- Container für gesammelte Druck-Details -->
+        <div id="print-details-container"></div>
+
         <!-- Footer -->
         <div class="footer-note">
             ⚙️ Konzipiert für meine Bewerbung als IT-Verfahrensbetreuer BIENE & VO im LRZS · 2026
         </div>
     </div>
 
-    <!-- ========== HIDDEN DETAILS (für Modals) ========== -->
+    <!-- ========== HIDDEN DETAILS (für Modals) – unverändert ========== -->
     <div class="hidden-detail" id="historie1">
         <h4>FISCUS & fiscus GmbH</h4>
         <p>Bereits 1991 wurde mit <strong>FISCUS</strong> der erste Versuch gestartet, die Steuer-IT zu vereinheitlichen
@@ -885,51 +1247,40 @@
 
     <!-- Vollständige Anforderungen (für Modal) -->
     <div class="hidden-detail" id="more-anforderungen-complete">
-        <h4>Alle Anforderungen im Überblick</h4>
+        <h4>Alle Anforderungen</h4>
         <ul>
-            <li><i class="fas fa-check-circle"></i> <span>Betreuung von BIENE, VoSystem</span></li>
-            <li><i class="fas fa-check-circle"></i> <span>Einsatzvorbereitung, Test, Dokumentation,
-                    Ergebnisprüfung</span></li>
-            <li><i class="fas fa-check-circle"></i> <span>Fehlerbehandlung, Anwenderbetreuung (Finanzämter)</span></li>
-            <li><i class="fas fa-check-circle"></i> <span>Kommunikation mit programmierenden Stellen</span></li>
-            <li><i class="fas fa-check-circle"></i> <span>Überwachung Probeberechnung, Erhebungsrechentermin</span></li>
-            <li><i class="fas fa-check-circle"></i> <span>Sonderläufe, Datenauswertungen</span></li>
-            <li><i class="fas fa-check-circle"></i> <span>Mitarbeit in Bundesarbeitsgruppen, Vertretung Sachsens</span>
-            </li>
-            <li><i class="fas fa-check-circle"></i> <span>Linux-Kenntnisse, Verständnis für IT-Systeme</span></li>
-            <li><i class="fas fa-check-circle"></i> <span>Kenntnisse der Abläufe im Finanzamt
-                    (Erhebungsbezirk/Finanzkasse)</span></li>
-            <li><i class="fas fa-check-circle"></i> <span>Projektarbeit, analytisches Denken, Teamfähigkeit</span></li>
+            <li>Betreuung von BIENE, VoSystem</li>
+            <li>Einsatzvorbereitung, Test, Dokumentation, Ergebnisprüfung</li>
+            <li>Fehlerbehandlung, Anwenderbetreuung (Finanzämter)</li>
+            <li>Kommunikation mit programmierenden Stellen</li>
+            <li>Überwachung Probeberechnung, Erhebungsrechentermin</li>
+            <li>Sonderläufe, Datenauswertungen</li>
+            <li>Mitarbeit in Bundesarbeitsgruppen, Vertretung Sachsens</li>
+            <li>Linux-Kenntnisse, Verständnis für IT-Systeme</li>
+            <li>Kenntnisse der Abläufe im Finanzamt (Erhebungsbezirk/Finanzkasse)</li>
+            <li>Projektarbeit, analytisches Denken, Teamfähigkeit</li>
         </ul>
     </div>
 
     <!-- Vollständige Qualifikationen (für Modal) -->
     <div class="hidden-detail" id="more-qualifikation-complete">
-        <h4>Alle Qualifikationen im Überblick</h4>
+        <h4>Alle Qualifikationen</h4>
         <ul>
-            <li><i class="fas fa-check-circle check"></i> <span><strong>Studium:</strong> Geoinformatik (HTW Dresden) –
-                    starke IT-Basis</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span><strong>IHK-Abschluss:</strong> Fachinformatiker
-                    Anwendungsentwicklung</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span><strong>Administration:</strong> Debian-Linux,
-                    PostgreSQL, Docker, Webserver, Loadbalancing</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span><strong>Automatisierung:</strong> Bash, Python,
-                    Automatisierung von Abläufen</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span><strong>Versionsverwaltung:</strong> Git, GitLab in
-                    Arbeitsgruppen</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span><strong>Dokumentation:</strong> MediaWiki, Confluence –
-                    strukturierte Wissensweitergabe</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span><strong>Verfahrensbetrieb:</strong> Konfiguration,
-                    Testing, Plausibilitätsprüfungen, Fehleranalyse</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span><strong>Zusammenarbeit:</strong> Enge Kommunikation mit
-                    Softwareentwicklern, gemeinsames Debugging</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span>Überwachung von Batch-Läufen, Monitoring</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span>Mitarbeit in länderübergreifenden Arbeitsgruppen z.B.
-                    INSPIRE</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span>Ich habe mir ein strukturiertes Grundverständnis der
-                    Abläufe erarbeitet und bin bereit, dieses weiter zu vertiefen</span></li>
-            <li><i class="fas fa-check-circle check"></i> <span>Projekterfahrung, selbstständige, strukturierte
-                    Arbeitsweise</span></li>
+            <li><strong>Studium:</strong> Geoinformatik (HTW Dresden) – starke IT-Basis</li>
+            <li><strong>IHK-Abschluss:</strong> Fachinformatiker Anwendungsentwicklung</li>
+            <li><strong>Administration:</strong> Debian-Linux, PostgreSQL, Docker, Webserver, Loadbalancing</li>
+            <li><strong>Automatisierung:</strong> Bash, Python, Automatisierung von Abläufen</li>
+            <li><strong>Versionsverwaltung:</strong> Git, GitLab in Arbeitsgruppen</li>
+            <li><strong>Dokumentation:</strong> MediaWiki, Confluence – strukturierte Wissensweitergabe</li>
+            <li><strong>Verfahrensbetrieb:</strong> Konfiguration, Testing, Plausibilitätsprüfungen,
+                Fehleranalyse</li>
+            <li><strong>Zusammenarbeit & Team:</strong> Kommunikation mit Entwicklern und Fachbereichen,
+                gemeinsames Debugging, Mitarbeit in länderübergreifenden Arbeitsgruppen (z.B. INSPIRE),
+                Teamarbeit</li>
+            <li>Projekterfahrung, selbstständige, strukturierte Arbeitsweise</li>
+            <li>Überwachung von Batch-Läufen, QS, Monitoring</li>
+            <li>Strukturiertes Grundverständnis der spezifischen Abläufe erarbeitet</li>
+
         </ul>
     </div>
 
@@ -954,7 +1305,6 @@
             function openModal(detailId, clickedButton) {
                 const detailDiv = document.getElementById(detailId);
                 if (!detailDiv) return;
-                // Titel aus dem Button-Kontext holen (z.B. aus der Karten-Überschrift)
                 let title = '';
                 const card = clickedButton.closest('.card');
                 if (card) {
@@ -1002,6 +1352,39 @@
             header.addEventListener('click', function () {
                 accordion.classList.toggle('open');
             });
+
+            // ========== EXPORT-FUNKTION (PDF) ==========
+            const exportBtn = document.getElementById('exportPdfBtn');
+            const printContainer = document.getElementById('print-details-container');
+
+            function fillPrintContainer() {
+                if (!printContainer) return;
+                const details = document.querySelectorAll('.hidden-detail');
+                let html = '<h2 style="font-size: 2rem; margin-top: 1.5rem; border-bottom: 2px solid #333; padding-bottom: 0.3rem; page-break-after: avoid;">📋 Detaillierte Informationen</h2>';
+                details.forEach(detail => {
+                    let title = 'Weitere Informationen';
+                    const heading = detail.querySelector('h4, h3');
+                    if (heading) {
+                        title = heading.innerText;
+                    }
+                    const contentClone = detail.cloneNode(true);
+                    const firstHeading = contentClone.querySelector('h4, h3');
+                    if (firstHeading) firstHeading.remove();
+                    html += '<div style="margin-top: 1.2rem; page-break-inside: avoid;">';
+                    html += '<h3 style="color: #003057; margin-bottom: 0.3rem; font-size: 1.3rem;">' + title + '</h3>';
+                    html += contentClone.innerHTML;
+                    html += '</div>';
+                });
+                printContainer.innerHTML = html;
+            }
+
+            exportBtn.addEventListener('click', function () {
+                fillPrintContainer();
+                setTimeout(() => {
+                    window.print();
+                }, 150);
+            });
+
         })();
     </script>
 </body>
