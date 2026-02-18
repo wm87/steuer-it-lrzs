@@ -3,12 +3,27 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>IT-Verfahrensbetrieb im LRZS · BIENE & VO</title>
-    <!-- Font Awesome für Icons (nur Bildschirm) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Font Awesome asynchron laden -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </noscript>
     <style>
-        /* ===== Basis & Reset ===== */
+        /* ===== EINHEITLICHE FARBEN ===== */
+        :root {
+            --primary-dark: #0a2b44;
+            --primary-medium: #1f5a8e;
+            --primary-light: #e3f0fa;
+            --accent-orange: #ff8c42;
+            --text-dark: #1a2c3e;
+            --text-light: #5f7d9c;
+            --bg-light: #f8fafd;
+        }
+
+        /* ===== RESET & GRUNDLAGEN ===== */
         * {
             margin: 0;
             padding: 0;
@@ -16,61 +31,175 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(145deg, #eef2f6 0%, #f8fafd 100%);
-            color: #1a2c3e;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(145deg, #eef2f6 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
             line-height: 1.5;
-            padding: 2rem 1.5rem;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 2rem 1.5rem 0;
+            width: 100%;
         }
 
-        /* ===== Export-Button ===== */
-        .export-wrapper {
-            text-align: center;
-            margin-bottom: 2rem;
+        /* ===== STICKY HEADER ===== */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--primary-dark);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            box-shadow: 0 6px 12px rgba(0, 20, 40, 0.3);
+            border-bottom: 2px solid var(--accent-orange);
+            transition: transform 0.3s ease;
         }
 
-        .export-btn {
-            background: #005a9c;
+        .sticky-header.hidden {
+            transform: translateY(-100%);
+        }
+
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* Logo links, Suche rechts */
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .header-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+        }
+
+        /* ===== SUCHLEISTE ===== */
+        /* Standard (Tablet/Desktop): rechts, max. 250px breit */
+        .header-search {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid var(--primary-medium);
+            border-radius: 0;
+            overflow: hidden;
+            width: 100%;
+            max-width: 300px;
+            transition: box-shadow 0.2s;
+        }
+
+        .header-search:focus-within {
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2), 0 0 0 2px rgba(255, 140, 66, 0.5);
+        }
+
+        .header-search input {
+            border: none;
+            padding: 0.5rem 0.8rem;
+            color: #000;
+            font-size: 0.95rem;
+            flex: 1;
+            min-width: 0;
+            outline: none;
+        }
+
+        .header-search input::placeholder {
+            color: #666;
+        }
+
+        .header-search button {
+            background: var(--accent-orange);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .header-search button:hover {
+            background: var(--primary-medium);
+        }
+
+        /* Navigationslinks */
+        .header-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem 1.8rem;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .header-links a {
+            color: #e0edfa;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s, border-bottom 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            white-space: nowrap;
+        }
+
+        .header-links a:hover {
+            color: white;
+            border-bottom-color: var(--accent-orange);
+        }
+
+        .header-links a i {
+            font-size: 1.1rem;
+            color: var(--accent-orange);
+        }
+
+        /* ===== SCROLL-TO-TOP BUTTON ===== */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background-color: var(--primary-dark);
             color: white;
             border: none;
             border-radius: 0;
-            /* eckig */
-            padding: 0.9rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
+            width: 48px;
+            height: 48px;
+            font-size: 1.8rem;
             cursor: pointer;
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 0.8rem;
-            box-shadow: 0 6px 14px rgba(0, 40, 70, 0.35);
-            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            letter-spacing: 0.3px;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 40, 70, 0.4);
+            transition: background 0.2s, transform 0.2s, opacity 0.3s;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-        .export-btn:hover {
-            background: #003f6b;
-            transform: scale(1.02);
-            box-shadow: 0 10px 20px rgba(0, 40, 70, 0.4);
+        .scroll-top-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        .export-btn i {
-            font-size: 1.4rem;
+        .scroll-top-btn:hover {
+            background: var(--primary-medium);
+            transform: scale(1.05);
         }
 
-        /* ===== Hero ===== */
+        /* ===== HERO ===== */
         .hero {
             background: white;
-            border-radius: 0;
-            /* eckig */
-            padding: 3rem 3.5rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 30px 60px -15px rgba(0, 60, 100, 0.3);
+            padding: 2.5rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 60, 100, 0.25);
             position: relative;
             overflow: hidden;
         }
@@ -78,16 +207,17 @@
         .hero::before {
             content: "🐝📜";
             position: absolute;
-            bottom: -20px;
-            right: 30px;
-            font-size: 8rem;
+            bottom: -15px;
+            right: 20px;
+            font-size: 6rem;
             opacity: 0.1;
             transform: rotate(-5deg);
             z-index: 0;
+            pointer-events: none;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 800;
             background: linear-gradient(130deg, #003057, #1b4f7a);
             -webkit-background-clip: text;
@@ -99,259 +229,224 @@
         }
 
         .hero .sub-subhead {
-            font-size: 2rem;
+            font-size: clamp(1.3rem, 4vw, 2rem);
             font-weight: 500;
-            color: #1f4970;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-            border-left: 4px solid #1f6e9c;
-            /* blau */
-            padding-left: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-medium);
+            padding-left: 1.2rem;
         }
 
         .hero .subhead {
-            font-size: 1.5rem;
-            color: #1f4970;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--primary-dark);
             max-width: 900px;
             margin-top: 1rem;
             font-weight: 500;
             background: rgba(255, 140, 66, 0.05);
-            padding: 1.2rem 2rem;
-            border-radius: 0;
-            /* eckig */
+            padding: 1rem 1.5rem;
             display: inline-block;
-            position: relative;
-            z-index: 1;
         }
 
         .hero .subhead i {
             margin-right: 0.5rem;
-            color: #ff8c42;
+            color: var(--accent-orange);
         }
 
         .hero .subhead .mission {
             display: block;
-            margin-top: 0.5rem;
+            margin-top: 0.3rem;
             font-weight: 700;
         }
 
-        /* ===== Profil-Highlight (für alle Abschnitte mit Icon + Text) ===== */
+        /* ===== Profil-Highlight ===== */
         .profil-highlight {
             background: #ffffff;
-            border-radius: 0;
-            /* eckig */
-            padding: 2rem 2.5rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 15px 30px -10px rgba(0, 60, 110, 0.2);
+            padding: 1.8rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 25px -8px rgba(0, 60, 110, 0.15);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 2rem;
+            gap: 1.8rem;
         }
 
         .profil-icon {
-            background: #0b3d5f;
-            width: 90px;
-            height: 90px;
-            border-radius: 0;
-            /* eckig */
+            background: var(--primary-dark);
+            width: 80px;
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 3rem;
-            box-shadow: 0 10px 15px -5px #0b3d5f80;
+            font-size: 2.5rem;
+            flex-shrink: 0;
         }
 
         .profil-text {
             flex: 1;
-            min-width: 280px;
+            min-width: 250px;
         }
 
         .profil-text h2 {
-            font-size: 2rem;
+            font-size: clamp(1.6rem, 4vw, 2rem);
             font-weight: 650;
-            color: #0b3d5f;
-            margin-bottom: 0.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.6rem;
         }
 
         .profil-text p {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             color: #1e3b4f;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.6rem;
         }
 
         .profil-text .tagline {
-            background: #e3f0fa;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0;
-            /* eckig */
+            background: var(--primary-light);
+            padding: 0.6rem 1.2rem;
             display: inline-block;
             font-weight: 600;
-            color: #003a66;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
         }
 
-        /* Listen innerhalb von .profil-text */
         .profil-text ul {
             list-style: none;
-            margin-bottom: 1.5rem;
-            padding-left: 0;
+            margin-bottom: 1.2rem;
         }
 
         .profil-text li {
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             display: flex;
             gap: 0.5rem;
             align-items: baseline;
-            font-size: 1.05rem;
+            font-size: 1rem;
         }
 
         .profil-text li i {
-            color: #000000;
-            font-size: 1.4rem;
+            color: #000;
+            font-size: 1.3rem;
             min-width: 2rem;
-            flex-shrink: 0;
-            text-align: left;
-        }
-
-        .profil-text li span {
-            line-height: 1.5;
-            flex: 1;
         }
 
         /* ===== Section-Überschriften ===== */
         .section-title {
-            font-size: 2rem;
+            font-size: clamp(1.6rem, 4vw, 2rem);
             font-weight: 600;
-            color: #103a5e;
-            margin: 3rem 0 1.8rem;
+            color: var(--primary-dark);
+            margin: 2.5rem 0 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            border-bottom: 3px solid #b9d4ec;
-            padding-bottom: 0.8rem;
+            border-bottom: 3px solid var(--primary-light);
+            padding-bottom: 0.6rem;
+            scroll-margin-top: 130px;
         }
 
         .section-title i {
-            color: #1f6e9c;
-            font-size: 2rem;
+            color: var(--primary-medium);
+            font-size: 1.8rem;
         }
 
         /* ===== Kachel-Grid ===== */
         .kachel-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
 
         .card {
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 0;
-            /* eckig */
-            padding: 1.8rem 1.5rem;
-            box-shadow: 0 8px 20px -8px rgba(0, 50, 80, 0.2);
+            padding: 1.5rem 1.3rem;
+            box-shadow: 0 5px 15px -5px rgba(0, 50, 80, 0.15);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: flex;
             flex-direction: column;
-            will-change: transform, box-shadow;
+            height: 100%;
         }
 
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 18px 30px -12px #1b4f7a;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px -10px var(--primary-medium);
             background: white;
         }
 
         .card h3 {
-            font-size: 1.9rem;
+            font-size: clamp(1.4rem, 3.5vw, 1.8rem);
             font-weight: 600;
             margin-bottom: 1rem;
-            color: #00315c;
-            border-left: 6px solid #2b6c9e;
-            padding-left: 1rem;
+            color: var(--primary-dark);
+            border-left: 5px solid var(--primary-medium);
+            padding-left: 0.8rem;
         }
 
-        /* Icons in Kachel-Überschriften wurden entfernt – nur reiner Text */
-
-        /* Standard-Listen in Kacheln: normale Bullets */
         .card ul {
             list-style: disc;
-            padding-left: 1.5rem;
-            margin-bottom: 1.5rem;
+            padding-left: 1.3rem;
+            margin-bottom: 1.2rem;
         }
 
         .card li {
-            margin-bottom: 0.5rem;
-            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
         }
 
         .card li i {
             display: none;
-            /* Icons in Kachel-Listen werden nicht mehr verwendet */
         }
 
         .card button {
             background: white;
-            border: 2px solid #1f5a8e;
-            color: #1f5a8e;
-            font-weight: 650;
-            font-size: 1rem;
-            padding: 0.8rem 1.5rem;
-            border-radius: 0;
-            /* eckig */
+            border: 2px solid var(--primary-medium);
+            color: var(--primary-medium);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.6rem 1.2rem;
             cursor: pointer;
             transition: all 0.15s;
             align-self: flex-start;
-            box-shadow: 0 4px 8px rgba(0, 40, 70, 0.1);
+            margin-top: auto;
         }
 
         .card button:hover {
-            background: #1f5a8e;
+            background: var(--primary-medium);
             color: white;
-            border-color: #1f5a8e;
-            box-shadow: 0 12px 18px -8px #00325c;
         }
 
         /* ===== GitHub CTA ===== */
         .github-cta {
             background: #f5f8fc;
-            border-radius: 0;
-            /* eckig */
-            padding: 1.8rem 2.5rem;
-            margin: 2.5rem 0 2rem;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0 1.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 1.5rem;
-            box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
             border: 1px solid #d9e4f0;
-            color: #1a2c3e;
         }
 
         .github-cta .cta-text {
             flex: 1;
-            min-width: 250px;
+            min-width: 240px;
         }
 
         .github-cta .cta-text h3 {
-            font-size: 1.8rem;
-            font-weight: 600;
+            font-size: clamp(1.4rem, 3.5vw, 1.8rem);
             margin-bottom: 0.3rem;
-            color: #0b3d5f;
+            color: var(--primary-dark);
         }
 
         .github-cta .cta-text p {
-            font-size: 1.1rem;
-            margin-top: 0.5rem;
-            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-top: 0.4rem;
+            line-height: 1.5;
         }
 
         .github-cta .cta-text a {
-            color: #005a9c;
+            color: var(--primary-medium);
             text-decoration: none;
-            font-weight: 500;
         }
 
         .github-cta .cta-text a:hover {
@@ -360,22 +455,16 @@
 
         .github-cta .cta-button {
             background: #24292e;
-            padding: 1rem 2.5rem;
-            border-radius: 0;
-            /* eckig */
-            font-size: 1.3rem;
+            padding: 0.8rem 1.8rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: white;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.6rem;
             transition: background 0.2s, transform 0.1s;
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .github-cta .cta-button i {
-            font-size: 1.8rem;
+            white-space: nowrap;
         }
 
         .github-cta .cta-button:hover {
@@ -386,70 +475,53 @@
         /* ===== Zitat-Block ===== */
         .zitat-block {
             background: white;
-            border-radius: 0;
-            /* eckig */
-            padding: 1.8rem 2.5rem;
-            margin: 2.5rem 0;
-            box-shadow: 0 15px 25px -10px rgba(0, 60, 110, 0.1);
-            text-align: center;
-            border-left: 6px solid #1f6e9c;
-            /* blau */
-        }
-
-        .zitat-block i {
-            font-size: 2rem;
-            color: #1f6e9c;
-            opacity: 0.3;
-            margin-bottom: 0.5rem;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 20px -8px rgba(0, 60, 110, 0.1);
+            border-left: 6px solid var(--primary-medium);
         }
 
         .zitat-block .zitat-text {
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             font-weight: 500;
-            color: #00315c;
-            line-height: 1.5;
-            max-width: 900px;
-            margin: 0 auto;
+            color: var(--primary-dark);
         }
 
         .zitat-block .zitat-author {
-            margin-top: 1rem;
-            font-size: 1rem;
-            color: #1f4970;
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
             font-weight: 600;
         }
 
         /* ===== Accordion ===== */
         .accordion {
-            margin-top: 2rem;
-            background: #e9f0f9;
-            border-radius: 0;
-            /* eckig */
-            box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+            margin-top: 1.5rem;
+            background: var(--primary-light);
         }
 
         .accordion-header {
-            padding: 1.5rem 2rem;
+            padding: 1.2rem 1.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 1rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            color: #0b3d5f;
+            color: var(--primary-dark);
             user-select: none;
         }
 
         .accordion-header i {
             transition: transform 0.2s;
-            font-size: 1.2rem;
-            color: #0f5e96;
+            font-size: 1.1rem;
+            color: var(--primary-medium);
         }
 
         .accordion-content {
             display: none;
-            padding: 0 2rem 1.5rem 2rem;
-            color: #5f7d9c;
+            padding: 0 1.5rem 1.2rem 1.5rem;
+            color: var(--text-light);
             font-size: 0.9rem;
         }
 
@@ -461,102 +533,77 @@
             transform: rotate(90deg);
         }
 
-        .accordion-content ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin-top: 0.8rem;
+        /* ===== FOOTER ===== */
+        .main-footer {
+            background: var(--primary-dark);
+            color: #d1e0f0;
+            margin-top: 3rem;
+            padding: 2.5rem 1.5rem 1.5rem;
+            border-top: 4px solid var(--accent-orange);
         }
 
-        .accordion-content li {
-            margin-bottom: 0.5rem;
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
         }
 
-        .accordion-content a {
-            color: #0b3d5f;
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--accent-orange);
+            padding-bottom: 0.4rem;
+        }
+
+        .footer-col h4 i {
+            color: var(--accent-orange);
+        }
+
+        .footer-col p,
+        .footer-col a {
+            color: #c0d4e8;
+            line-height: 1.6;
             text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
         }
 
-        /* ===== Footer ===== */
-        .footer-note {
+        .footer-col a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-col i {
+            width: 1.5rem;
+            color: var(--accent-orange);
+        }
+
+        .footer-bottom {
             text-align: center;
-            margin-top: 4rem;
-            font-size: 1rem;
-            color: #5f7d9c;
-            border-top: 2px dashed #b6cfec;
-            padding-top: 2rem;
+            margin-top: 2.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--primary-medium);
+            font-size: 0.85rem;
+            color: #9bb5d1;
         }
 
-        /* ===== Druck-Container (wird nur im Print gefüllt) ===== */
+        /* ===== Druck-Container (für PDF-Export) ===== */
         #print-details-container {
             display: none;
         }
 
-        /* ===== Responsive ===== */
-        @media (max-width: 900px) {
-            .hero h1 {
-                font-size: 2.4rem;
-            }
-
-            .hero .sub-subhead {
-                font-size: 1.6rem;
-            }
-
-            .hero .subhead {
-                font-size: 1.2rem;
-            }
-
-            .profil-highlight,
-            .github-cta {
-                flex-direction: column;
-                text-align: left;
-            }
-
-            .profil-highlight .profil-icon {
-                margin-bottom: 1rem;
-            }
-
-            .github-cta .cta-button {
-                align-self: flex-start;
-            }
-
-            /* Hero-Emoji ausblenden */
-            .hero::before {
-                display: none;
-            }
-
-            /* Mobile: Icons in Listen ausblenden, stattdessen normale Bullets */
-            .profil-text ul {
-                list-style: disc;
-                padding-left: 1.5rem;
-            }
-
-            .profil-text li {
-                display: list-item;
-                margin-bottom: 0.5rem;
-                gap: 0;
-            }
-
-            .profil-text li i {
-                display: none;
-            }
-
-            .profil-text li span {
-                display: inline;
-            }
-
-            .card ul {
-                list-style: disc;
-                padding-left: 1.5rem;
-            }
-
-            .card li {
-                display: list-item;
-                margin-bottom: 0.5rem;
-            }
-
-            .card li i {
-                display: none;
-            }
+        /* ===== Suchmarkierung ===== */
+        .search-highlight {
+            background-color: #fff4c2;
+            transition: background-color 0.3s;
         }
 
         /* ===== Modal ===== */
@@ -570,27 +617,25 @@
             background-color: rgba(0, 20, 40, 0.7);
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 2000;
         }
 
         .modal-content {
             background: white;
-            border-radius: 0;
-            /* eckig */
-            max-width: 750px;
+            max-width: 700px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
-            padding: 2.8rem 3rem;
-            box-shadow: 0 40px 70px rgba(0, 30, 60, 0.5);
+            padding: 2rem;
+            box-shadow: 0 30px 60px rgba(0, 30, 60, 0.5);
             position: relative;
         }
 
         .close-btn {
             position: absolute;
-            top: 2rem;
-            right: 2.2rem;
-            font-size: 2.5rem;
+            top: 1.2rem;
+            right: 1.5rem;
+            font-size: 2.2rem;
             font-weight: 300;
             color: #3a5f7a;
             cursor: pointer;
@@ -600,64 +645,274 @@
         }
 
         #modal-title {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: #0c2e4b;
-            margin-bottom: 1.8rem;
-            border-bottom: 4px solid #cdddec;
-            padding-bottom: 0.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.2rem;
+            border-bottom: 3px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+            padding-right: 2rem;
         }
 
         #modal-body {
-            font-size: 1.15rem;
+            font-size: 1rem;
             color: #1e3b55;
         }
 
         #modal-body ul {
-            margin-left: 1.5rem;
-            margin-top: 0.8rem;
+            margin-left: 1.2rem;
         }
 
-        /* ===== Versteckte Detail-Container für Modals ===== */
         .hidden-detail {
             display: none;
         }
 
-        /* ========== VERBESSERTE DRUCK-STYLES ========== */
+        /* ===== RESPONSIVE STYLES ===== */
+        @media (max-width: 1024px) {
+            body {
+                font-size: 15px;
+            }
+
+            .header-logo {
+                font-size: 1.4rem;
+            }
+
+            .header-links a {
+                font-size: 0.95rem;
+            }
+
+            .hero {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            body {
+                font-size: 14px;
+            }
+
+            .container {
+                padding: 1.5rem 1rem 0;
+            }
+
+            .header-logo {
+                font-size: 1.3rem;
+            }
+
+
+            .header-search {
+                order: 2;
+                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .header-links {
+                gap: 1rem 1.2rem;
+            }
+
+            .header-links a {
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .sub-subhead {
+                font-size: 1.3rem;
+            }
+
+            .hero .subhead {
+                font-size: 1rem;
+                padding: 0.8rem 1.2rem;
+            }
+
+            .profil-highlight {
+                padding: 1.2rem;
+            }
+
+            .profil-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .profil-text h2 {
+                font-size: 1.5rem;
+            }
+
+            .profil-text p {
+                font-size: 0.95rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+                margin: 2rem 0 1rem;
+                scroll-margin-top: 200px;
+            }
+
+            .section-title i {
+                font-size: 1.5rem;
+            }
+
+            .card h3 {
+                font-size: 1.3rem;
+            }
+
+            .card li {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Mobile Ansicht: Suche unter Logo, 100% breit (dadurch mittig) */
+        @media (max-width: 480px) {
+            body {
+                font-size: 13px;
+            }
+
+            .header-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-logo {
+                font-size: 1.2rem;
+                text-align: center;
+            }
+
+            .header-search {
+                max-width: 100% !important;
+                /* Volle Breite erzwingen */
+                width: 100%;
+                /* Durch width:100% automatisch mittig im flex-column-Container */
+            }
+
+            .header-links {
+                justify-content: center;
+                gap: 0.8rem;
+            }
+
+            .header-links a {
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                padding: 1.2rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+
+            .hero .sub-subhead {
+                font-size: 1.1rem;
+                padding-left: 0.8rem;
+            }
+
+            .hero .subhead {
+                font-size: 0.9rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .profil-text .tagline {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .profil-text li {
+                font-size: 0.85rem;
+            }
+
+            .profil-text li i {
+                font-size: 1rem;
+                min-width: 1.6rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+                scroll-margin-top: 250px;
+            }
+
+            .section-title i {
+                font-size: 1.3rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card h3 {
+                font-size: 1.2rem;
+            }
+
+            .card button {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .github-cta .cta-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .github-cta .cta-button i {
+                font-size: 1rem;
+            }
+
+            .zitat-block {
+                padding: 1rem;
+            }
+
+            .scroll-top-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* ===== DRUCK-STYLES ===== */
         @media print {
 
-            /* Text überall auswählbar machen */
+            /* Header, Buttons, Footer ausblenden */
+            .sticky-header,
+            .scroll-top-btn,
+            .detail-btn,
+            .cta-button,
+            .close-btn,
+            .accordion-header i,
+            .main-footer,
+            .header-search button,
+            .header-search input {
+                display: none !important;
+            }
+
+            /* Textauswahl erlauben */
             * {
                 user-select: text !important;
                 -webkit-user-select: text !important;
             }
 
-            /* Links blau und unterstrichen (optional) */
+            /* Links blau und unterstrichen */
             a {
                 color: #0000ee !important;
                 text-decoration: underline !important;
             }
 
-            /* Standardmäßig economy für beste Textauswahl */
-            body,
-            body * {
-                -webkit-print-color-adjust: economy !important;
-                print-color-adjust: economy !important;
-                color-adjust: economy !important;
-            }
-
-            /* Nur die Tagline behält ihre Hintergrundfarbe */
+            /* Tagline-Hintergrund exakt beibehalten */
             .tagline {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
-                color-adjust: exact !important;
                 background: #e3f0fa !important;
                 color: black !important;
             }
 
             body {
                 background: white;
-                padding: 0.3cm;
+                padding: 0.5cm;
                 color: black;
                 font-size: 11pt;
             }
@@ -665,47 +920,32 @@
             .container {
                 max-width: 100%;
                 margin: 0;
+                padding: 0;
             }
 
-            /* Buttons und interaktive Elemente ausblenden */
-            .export-btn,
-            .detail-btn,
-            .cta-button,
-            .close-btn,
-            .accordion-header i {
-                display: none !important;
-            }
-
-            /* Hero Hintergrund entfernen */
+            /* Hero Hintergrund entfernen, aber Überschrift erhalten */
             .hero::before {
                 display: none !important;
             }
 
-            /* Footer ausblenden */
-            .footer-note {
+            /* Überschrift im Druck sichtbar machen (Farbverlauf durch schwarz ersetzen) */
+            .hero h1 {
+                background: none !important;
+                -webkit-text-fill-color: black !important;
+                color: black !important;
+            }
+
+            /* Icons ausblenden (außer Copyright) */
+            i:not(.fas.fa-copyright) {
                 display: none !important;
             }
 
-            /* Alle Icons und Pseudoelemente von Icons komplett ausblenden */
-            i,
-            .fas,
-            .far,
-            .fab,
-            [class*="fa-"],
-            i::before,
-            .fas::before,
-            .far::before,
-            .fab::before,
-            [class*="fa-"]::before {
-                display: none !important;
-            }
-
-            /* Profil-Icon-Blöcke ausblenden */
+            /* Profil-Icon ausblenden */
             .profil-icon {
                 display: none !important;
             }
 
-            /* Rahmen und Abstände kompakt */
+            /* Karten und Blöcke mit Rahmen versehen, ohne Schatten */
             .card,
             .profil-highlight,
             .zitat-block,
@@ -717,32 +957,7 @@
                 page-break-inside: avoid;
             }
 
-            .hero {
-                padding: 1rem 1.5rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-                background: none;
-                -webkit-text-fill-color: black;
-                color: black;
-            }
-
-            .hero .sub-subhead {
-                font-size: 1.3rem;
-                border-left-width: 2px;
-                margin-bottom: 0.8rem;
-            }
-
-            .hero .subhead {
-                font-size: 1.1rem;
-                padding: 0.8rem 1.2rem;
-                background: none;
-                border: 1px solid #ccc;
-            }
-
-            /* Überschrift und folgenden Inhalt zusammenhalten */
+            /* Überschriften zusammenhalten */
             .section-title {
                 page-break-after: avoid;
             }
@@ -750,6 +965,11 @@
             .section-title+* {
                 page-break-before: avoid;
                 page-break-inside: avoid;
+            }
+
+            /* Accordion-Inhalt im Druck sichtbar machen */
+            .accordion-content {
+                display: block !important;
             }
 
             /* Listen als normale Listen (mit Bullets) */
@@ -766,11 +986,7 @@
                 font-size: 0.95rem;
             }
 
-            .card li span,
-            .profil-text li span {
-                display: inline;
-            }
-
+            /* Druck-Details Container anzeigen */
             #print-details-container {
                 display: block !important;
                 margin-top: 1.5rem;
@@ -779,98 +995,45 @@
                 page-break-before: always;
             }
 
-            #print-details-container div {
-                page-break-inside: avoid;
-            }
-
             #print-details-container h2 {
                 font-size: 1.8rem;
+                margin-bottom: 1rem;
             }
 
             #print-details-container h3 {
                 font-size: 1.3rem;
-            }
-
-            .section-title {
-                font-size: 1.6rem;
-                margin: 1.5rem 0 0.8rem;
-                border-bottom-width: 2px;
-            }
-
-            .card {
-                padding: 1rem;
-            }
-
-            .card h3 {
-                font-size: 1.4rem;
-                border-left-width: 3px;
-                margin-bottom: 0.5rem;
-            }
-
-            .card .kurztext {
-                font-size: 0.95rem;
-            }
-
-            .profil-highlight {
-                padding: 1rem;
-                gap: 1rem;
-            }
-
-            .profil-text h2 {
-                font-size: 1.5rem;
-            }
-
-            .profil-text p {
-                font-size: 1rem;
-            }
-
-            .github-cta {
-                padding: 1rem;
-            }
-
-            .github-cta .cta-text h3 {
-                font-size: 1.4rem;
-            }
-
-            .github-cta .cta-text p {
-                font-size: 0.95rem;
-            }
-
-            .zitat-block {
-                padding: 1rem;
-            }
-
-            .zitat-block .zitat-text {
-                font-size: 1.1rem;
-            }
-
-            .accordion-content {
-                display: block !important;
-                padding: 0.5rem 1rem 1rem;
-            }
-
-            .accordion-header {
-                padding: 0.8rem 1rem;
-                background: #eee;
-                border-bottom: 1px solid #ccc;
+                margin-top: 1.2rem;
             }
 
             @page {
-                margin: 1.8cm;
+                margin: 1.5cm;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <!-- Export-Button oben mittig -->
-        <div class="export-wrapper">
-            <button class="export-btn" id="exportPdfBtn">
-                <i class="fas fa-file-pdf"></i> PDF-Version erstellen
-            </button>
-        </div>
 
+    <!-- ===== STICKY HEADER ===== -->
+    <header class="sticky-header" id="mainHeader">
+        <div class="header-row">
+            <div class="header-logo">Verfahrensbetreuung BIENE & VO</div>
+            <div class="header-search">
+                <input type="text" id="searchInput" placeholder="Seite durchsuchen..." aria-label="Suchbegriff">
+                <button id="searchButton" aria-label="Suchen"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        <nav class="header-links">
+            <a href="#profil"><i class="fas fa-building"></i> Über LRZS</a>
+            <a href="#motivation"><i class="fas fa-heart"></i> Motivation</a>
+            <a href="#stellenprofil"><i class="fas fa-clipboard-check"></i> Stellenprofil</a>
+            <a href="#hintergrund"><i class="fas fa-history"></i> Hintergrund</a>
+            <a href="#verfahren"><i class="fas fa-cubes"></i> Verfahren</a>
+            <a href="#github"><i class="fab fa-github"></i> GitHub</a>
+        </nav>
+    </header>
+
+    <div class="container">
         <!-- Hero -->
         <div class="hero">
             <h1>IT-Verfahrensbetreuung im LRZS</h1>
@@ -882,67 +1045,53 @@
             </div>
         </div>
 
-        <!-- Über das LRZS – zentraler IT-Dienstleister -->
-        <div class="section-title">
+        <!-- Über das LRZS -->
+        <div class="section-title" id="profil">
             <i class="fas fa-building"></i> Über das LRZS – zentraler IT-Dienstleister
         </div>
         <div class="profil-highlight">
-            <div class="profil-icon">
-                <i class="fas fa-server"></i>
-            </div>
+            <div class="profil-icon"><i class="fas fa-server"></i></div>
             <div class="profil-text">
                 <h2>Über das LRZS</h2>
-                <p>
-                    Das LRZS in Dresden ist die zentrale IT-Einrichtung des Freistaates Sachsen für die
-                    Finanzverwaltung. Es betreibt die Fachverfahren aller sächsischen Finanzämter, darunter die
-                    KONSENS-Kernverfahren <strong>GINSTER, BIENE und ELFE</strong>, sowie weitere Systeme wie das
-                    <strong>VO-System</strong>. Das LRZS gewährleistet einen sicheren und stabilen Betrieb, führt
-                    Releasewechsel durch, überwacht den Produktionsbetrieb und unterstützt Anwender. Zudem betreibt
-                    es das zentrale Datenportal für »ELSTER«.
+                <p>Das LRZS in Dresden ist die zentrale IT-Einrichtung des Freistaates Sachsen für die Finanzverwaltung.
+                    Es betreibt die Fachverfahren aller sächsischen Finanzämter, darunter die KONSENS-Kernverfahren
+                    <strong>GINSTER, BIENE und ELFE</strong>, sowie weitere Systeme wie das <strong>VO-System</strong>.
+                    Das LRZS gewährleistet einen sicheren und stabilen Betrieb, führt Releasewechsel durch, überwacht
+                    den Produktionsbetrieb und unterstützt Anwender. Zudem betreibt es das zentrale Datenportal für
+                    »ELSTER«.
                 </p>
-                <span class="tagline">
-                    <i class="fas fa-check"></i> Hier kann ich meine Kenntnisse im IT-Verfahrensbetrieb gezielt
-                    einbringen
-                </span>
+                <span class="tagline"><i class="fas fa-check"></i> Hier kann ich meine Kenntnisse im
+                    IT-Verfahrensbetrieb gezielt einbringen</span>
             </div>
         </div>
 
-        <!-- Ausführliche Motivation als Fließtext (ersetzt die Stichpunkte) -->
-        <div class="section-title">
+        <!-- Motivation -->
+        <div class="section-title" id="motivation">
             <i class="fas fa-heart"></i> Meine Motivation
         </div>
-        <div class="zitat-block" style="text-align: left; border-left-width: 6px; border-right-width: 0;">
-            <div class="zitat-text" style="font-size: 1.2rem; text-align: left;">
-                <p style="margin-bottom: 1rem;">
-                    Der IT-Verfahrensbetrieb der Finanzverwaltung spricht mich besonders an, weil er direkt zur
-                    Stabilität, Sicherheit und Effizienz steuerlicher Verfahren beiträgt und damit Vertrauen in
-                    staatliches Handeln stärkt.
-                </p>
-                <p style="margin-bottom: 1rem;">
-                    Mich fasziniert die Verbindung von technischer Präzision und organisatorischer Verantwortung:
-                    Verfahren wie BIENE oder VO erfordern fachlich korrekte Konfiguration, Qualitätssicherung und ein
-                    Verständnis für komplexe Abläufe.
-                </p>
-                <p style="margin-bottom: 1rem;">
-                    Die Arbeit als Schnittstelle zwischen Entwicklung, Fachbereichen, Anwendern und länderübergreifenden
-                    Strukturen entspricht genau meiner analytischen, strukturierten und teamorientierten Arbeitsweise.
-                </p>
-                <p style="margin-bottom: 1rem;">
-                    Ich strebe eine langfristige, sinnstiftende Tätigkeit im öffentlichen Dienst an, die operative
-                    Verantwortung mit konzeptioneller Mitwirkung vereint und nachhaltige IT-Lösungen ermöglicht.
-                </p>
+        <div class="zitat-block" style="text-align: left;">
+            <div class="zitat-text">
+                <p style="margin-bottom: 1rem;">Der IT-Verfahrensbetrieb der Finanzverwaltung spricht mich besonders an,
+                    weil er direkt zur Stabilität, Sicherheit und Effizienz steuerlicher Verfahren beiträgt und damit
+                    Vertrauen in staatliches Handeln stärkt.</p>
+                <p style="margin-bottom: 1rem;">Mich fasziniert die Verbindung von technischer Präzision und
+                    organisatorischer Verantwortung: Verfahren wie BIENE oder VO erfordern fachlich korrekte
+                    Konfiguration, Qualitätssicherung und ein Verständnis für komplexe Abläufe.</p>
+                <p style="margin-bottom: 1rem;">Die Arbeit als Schnittstelle zwischen Entwicklung, Fachbereichen,
+                    Anwendern und länderübergreifenden Strukturen entspricht genau meiner analytischen, strukturierten
+                    und teamorientierten Arbeitsweise.</p>
+                <p style="margin-bottom: 1rem;">Ich strebe eine langfristige, sinnstiftende Tätigkeit im öffentlichen
+                    Dienst an, die operative Verantwortung mit konzeptioneller Mitwirkung vereint und nachhaltige
+                    IT-Lösungen ermöglicht.</p>
             </div>
-            <div class="zitat-author" style="margin-top: 1.5rem; text-align: left;">
-                – Für eine stabile und zukunftsfähige Finanzverwaltung
-            </div>
+            <div class="zitat-author">– Für eine stabile und zukunftsfähige Finanzverwaltung</div>
         </div>
 
-        <!-- Stellenprofil & meine Passgenauigkeit - Überblick-->
-        <div class="section-title">
+        <!-- Stellenprofil & meine Passgenauigkeit -->
+        <div class="section-title" id="stellenprofil">
             <i class="fas fa-clipboard-check"></i> Stellenprofil & meine Passgenauigkeit - Überblick
         </div>
         <div class="kachel-grid">
-            <!-- Anforderungen-Kachel – ohne Icon, 8 Punkte -->
             <div class="card">
                 <h3>Anforderungen</h3>
                 <ul>
@@ -957,7 +1106,6 @@
                 </ul>
                 <button class="detail-btn" data-detail="more-anforderungen-complete">Alle anzeigen</button>
             </div>
-            <!-- Qualifikation-Kachel – ohne Icon, 8 fachliche Punkte (angepasster achter Punkt mit INSPIRE) -->
             <div class="card">
                 <h3>Meine Qualifikation</h3>
                 <ul>
@@ -977,12 +1125,11 @@
             </div>
         </div>
 
-        <!-- Hintergrund: Von FISCUS zu KONSENS – EfA und Länderrollen -->
-        <div class="section-title">
+        <!-- Hintergrund: Von FISCUS zu KONSENS -->
+        <div class="section-title" id="hintergrund">
             <i class="fas fa-history"></i> Hintergrund: Von FISCUS zu KONSENS – EfA und Länderrollen
         </div>
         <div class="kachel-grid">
-            <!-- Historie-Kacheln (3) -->
             <div class="card">
                 <h3>FISCUS & fiscus GmbH</h3>
                 <div class="kurztext">1991–2006: Erste gescheiterte Versuche einer Vereinheitlichung der Steuer-IT.
@@ -1001,7 +1148,6 @@
                     wird bundesweiter Standard – KONSENS ist hier Vorreiter.</div>
                 <button class="detail-btn" data-detail="egov">Mehr erfahren →</button>
             </div>
-            <!-- EfA-Kacheln (3) -->
             <div class="card">
                 <h3>EfA – „Einer für Alle“</h3>
                 <div class="kurztext">Ein Bundesland entwickelt ein Verfahren federführend, alle anderen nutzen es. So
@@ -1023,7 +1169,7 @@
         </div>
 
         <!-- Die KONSENS-Verfahren im Überblick -->
-        <div class="section-title">
+        <div class="section-title" id="verfahren">
             <i class="fas fa-cubes"></i> Die KONSENS-Verfahren im Überblick
         </div>
         <div class="kachel-grid">
@@ -1066,53 +1212,36 @@
         </div>
 
         <!-- GitHub Profil -->
-        <div class="section-title">
+        <div class="section-title" id="github">
             <i class="fab fa-github"></i> Arbeitsproben & Projektdokumentation
         </div>
 
         <div class="github-cta">
             <div class="cta-text">
                 <h3><i class="fab fa-github"></i> Transparente Einblicke in meine Arbeitsweise</h3>
-                <p>
-                    Auf meinem GitHub-Profil dokumentiere ich ausgewählte Projekte aus den Bereichen
+                <p>Auf meinem GitHub-Profil dokumentiere ich ausgewählte Projekte aus den Bereichen
                     <strong>Systemadministration, Automatisierung, Datenbanken und Webentwicklung</strong>.
                 </p>
-                <p>
-                    Die Repositories enthalten strukturierte Dokumentation, sauberen Code,
-                    nachvollziehbare Commit-Historien sowie technische Beschreibungen zu
-                    Architektur, Deployment und Testverfahren.
-                </p>
-                <p style="margin-top:1rem;">
-                    <strong>Repository-Übersicht:</strong><br>
-                    <a href="https://github.com/wm87?tab=repositories" target="_blank">
-                        github.com/wm87
-                    </a>
-                </p>
-                <p>
-                    <strong>Ergänzung zum Vorstellungsgespräch:</strong><br>
-                    <a href="https://wm87.github.io/steuer-it-lrzs/" target="_blank">
-                        wm87.github.io/steuer-it-lrzs
-                    </a>
+                <p>Die Repositories enthalten strukturierte Dokumentation, sauberen Code, nachvollziehbare
+                    Commit-Historien sowie technische Beschreibungen zu Architektur, Deployment und Testverfahren.</p>
+                <p style="margin-top:0.8rem;"><strong>Repository-Übersicht:</strong><br><a
+                        href="https://github.com/wm87?tab=repositories" target="_blank">github.com/wm87</a></p>
+                <p><strong>Ergänzung zum Vorstellungsgespräch:</strong><br><a
+                        href="https://wm87.github.io/steuer-it-lrzs/" target="_blank">wm87.github.io/steuer-it-lrzs</a>
                 </p>
             </div>
-
-            <a href="https://github.com/wm87" class="cta-button" target="_blank" rel="noopener">
-                <i class="fab fa-github"></i> GitHub-Profil öffnen
-            </a>
+            <a href="https://github.com/wm87" class="cta-button" target="_blank" rel="noopener"><i
+                    class="fab fa-github"></i> GitHub-Profil öffnen</a>
         </div>
 
-        <!-- Arbeitsproben-Zitat (jetzt wie Motivation formatiert) -->
-        <div class="zitat-block" style="text-align: left; border-left-width: 6px; border-right-width: 0;">
-            <div class="zitat-text" style="font-size: 1.2rem; text-align: left;">
-                <p style="margin-bottom: 1rem;">
-                    „Meine Projekte sind nicht nur Codebeispiele, sondern zeigen meine strukturierte
-                    Herangehensweise an Systembetrieb, Automatisierung und technische Dokumentation –
-                    genau jene Kompetenzen, die im IT-Verfahrensbetrieb entscheidend sind.“
-                </p>
+        <!-- Arbeitsproben-Zitat -->
+        <div class="zitat-block" style="text-align: left;">
+            <div class="zitat-text">
+                <p style="margin-bottom: 0.8rem;">„Meine Projekte sind nicht nur Codebeispiele, sondern zeigen meine
+                    strukturierte Herangehensweise an Systembetrieb, Automatisierung und technische Dokumentation –
+                    genau jene Kompetenzen, die im IT-Verfahrensbetrieb entscheidend sind.“</p>
             </div>
-            <div class="zitat-author" style="margin-top: 1.5rem; text-align: left;">
-                Arbeitsproben als Ergänzung zu Lebenslauf und Qualifikationsprofil
-            </div>
+            <div class="zitat-author">Arbeitsproben als Ergänzung zu Lebenslauf und Qualifikationsprofil</div>
         </div>
 
         <!-- Quellen & weiterführende Links -->
@@ -1120,7 +1249,7 @@
             <i class="fas fa-book-open"></i> Quellen
         </div>
         <div class="accordion" id="quellenAccordion">
-            <div class="accordion-header">
+            <div class="accordion-header" id="accordionHeader">
                 <i class="fas fa-chevron-right"></i>
                 <span>Quellen (anklicken zum Aufklappen)</span>
             </div>
@@ -1136,27 +1265,57 @@
                             target="_blank">www.steuer-it-konsens.de/ueber-konsens/konsens-verfahren-im-steuerbescheid</a>
                     </li>
                 </ul>
-                <p style="margin-top:1rem;"><i class="fas fa-external-link-alt"></i> Alle Internetquellen zuletzt
+                <p style="margin-top:0.8rem;"><i class="fas fa-external-link-alt"></i> Alle Internetquellen zuletzt
                     abgerufen am 17. Februar 2026.</p>
             </div>
         </div>
-
-        <!-- Container für gesammelte Druck-Details -->
-        <div id="print-details-container"></div>
-
-        <!-- Footer -->
-        <div class="footer-note">
-            ⚙️ Konzipiert für meine Bewerbung als IT-Verfahrensbetreuer BIENE & VO im LRZS · 2026
-        </div>
     </div>
 
-    <!-- ========== HIDDEN DETAILS (für Modals) – unverändert ========== -->
+    <!-- ===== FOOTER ===== -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4><i class="fas fa-bullseye"></i> Über diese Seite</h4>
+                <p>Bewerbungsseite für die Position als <strong>Sachbearbeiter IT-Verfahrensbetrieb</strong> mit
+                    Schwerpunkt BIENE & VO im LRZS Dresden.</p>
+                <p>Konzipiert als strukturierte und transparente Vorstellung meiner Qualifikationen und Motivation.</p>
+            </div>
+            <div class="footer-col">
+                <h4><i class="fas fa-link"></i> Direkt zu</h4>
+                <a href="#profil"><i class="fas fa-chevron-right"></i> Über das LRZS</a>
+                <a href="#motivation"><i class="fas fa-chevron-right"></i> Motivation</a>
+                <a href="#stellenprofil"><i class="fas fa-chevron-right"></i> Stellenprofil</a>
+                <a href="#hintergrund"><i class="fas fa-chevron-right"></i> Hintergrund</a>
+                <a href="#verfahren"><i class="fas fa-chevron-right"></i> Verfahren</a>
+                <a href="#github"><i class="fas fa-chevron-right"></i> Arbeitsproben</a>
+            </div>
+            <div class="footer-col">
+                <h4><i class="fas fa-address-card"></i> Kontakt & Profil</h4>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:mwf102.mw@gmail.com">mwf102.mw@gmail.com</a></p>
+                <p><i class="fab fa-github"></i> <a href="https://github.com/wm87" target="_blank">github.com/wm87</a>
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <i class="fas fa-copyright"></i> 2026 · Konzipiert für die Bewerbung als IT-Verfahrensbetreuer im LRZS
+        </div>
+    </footer>
+
+    <!-- ===== SCROLL-TO-TOP BUTTON ===== -->
+    <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Nach oben scrollen">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- ===== CONTAINER FÜR DRUCK-DETAILS ===== -->
+    <div id="print-details-container"></div>
+
+    <!-- ===== HIDDEN DETAILS (für Modals und Druck) ===== -->
     <div class="hidden-detail" id="historie1">
         <h4>FISCUS & fiscus GmbH</h4>
         <p>Bereits 1991 wurde mit <strong>FISCUS</strong> der erste Versuch gestartet, die Steuer-IT zu vereinheitlichen
             – jedes Land übernahm Programmieraufgaben, was an mangelnder Koordination scheiterte. 2001 folgte die
             privatwirtschaftlich organisierte <strong>fiscus GmbH</strong>, die ebenfalls nicht die gewünschte
-            Einheitlichkeit brachte. Die Erfahrungen führten 2007 zum neuen Ansatz KONSENS .</p>
+            Einheitlichkeit brachte. Die Erfahrungen führten 2007 zum neuen Ansatz KONSENS.</p>
     </div>
     <div class="hidden-detail" id="historie2">
         <h4>KONSENS-Abkommen 2007</h4>
@@ -1164,36 +1323,36 @@
             Baden-Württemberg, Bayern, Hessen, Niedersachsen und Nordrhein-Westfalen – übernahmen die Entwicklung für
             alle. Das Prinzip „Einer für Alle“ (EfA) wurde geboren. Ziel: Die über 200 alten, länderspezifischen
             Verfahren durch 19 moderne, bundesweit einheitliche Verfahren zu ersetzen. Das KONSENS-Gesetz von 2017 schuf
-            die verbindliche Rechtsgrundlage .</p>
+            die verbindliche Rechtsgrundlage.</p>
     </div>
     <div class="hidden-detail" id="egov">
         <h4>E-Government-Gesetze & EfA</h4>
         <p>Das E-Government-Gesetz des Bundes (2013) und die folgenden Landesgesetze verpflichten Behörden zur
             elektronischen Verwaltung. Das Onlinezugangsgesetz (OZG, 2017) machte das EfA-Prinzip zum Standard für alle
             Verwaltungsleistungen. KONSENS praktizierte dieses Prinzip bereits seit 2007 – ein echter Vorreiter. Bereits
-            das SteuerbürokratieabbauG 2008 hatte den Weg zur elektronischen Kommunikation geebnet .</p>
+            das SteuerbürokratieabbauG 2008 hatte den Weg zur elektronischen Kommunikation geebnet.</p>
     </div>
     <div class="hidden-detail" id="efa">
         <h4>EfA-Prinzip im Detail</h4>
         <p>„Einer für Alle“ bedeutet: Ein Land entwickelt federführend, alle anderen nutzen die fertige Lösung. Das
             vermeidet Mehrfachentwicklungen, spart Kosten und stellt Einheitlichkeit sicher. In KONSENS wird dies durch
             gemeinsame Anforderungsdokumente (Lastenhefte) und enge Abstimmung in der Steuerungsgruppe IT realisiert (§
-            4 KONSENS-G) .</p>
+            4 KONSENS-G).</p>
     </div>
     <div class="hidden-detail" id="laender">
         <h4>Die fünf entwickelnden Länder</h4>
         <p>Baden-Württemberg, Bayern, Hessen, Niedersachsen und Nordrhein-Westfalen entwickeln im Auftrag des Bundes und
             aller Länder. In der Steuerungsgruppe IT (Stgr-IT) legen sie Prioritäten und Strategie fest (§ 9 KONSENS-G).
             Die anderen elf Länder (darunter Sachsen) finanzieren mit, bringen ihre Anforderungen über
-            Bundesarbeitsgruppen ein und setzen die Verfahren ein .</p>
+            Bundesarbeitsgruppen ein und setzen die Verfahren ein.</p>
     </div>
     <div class="hidden-detail" id="federfuehrung">
         <h4>Federführungen im Überblick</h4>
         <ul>
             <li><strong>Bayern:</strong> BIENE (mit Niedersachsen), ELSTER, MÜSt, Grundsteuer</li>
             <li><strong>Niedersachsen:</strong> VO-System, BuStra/Steufa, BIENE (mit Bayern)</li>
-            <li><strong>Hessen:</strong> GINSTER (Grundinformationsdienst Steuer) </li>
-            <li><strong>Baden-Württemberg, Bayern, NRW:</strong> ELFE, DAME (Data Warehouse) </li>
+            <li><strong>Hessen:</strong> GINSTER (Grundinformationsdienst Steuer)</li>
+            <li><strong>Baden-Württemberg, Bayern, NRW:</strong> ELFE, DAME (Data Warehouse)</li>
             <li><strong>Nordrhein-Westfalen:</strong> Basisinfrastruktur, Identity-Management</li>
         </ul>
     </div>
@@ -1201,51 +1360,49 @@
         <h4>ELSTER – Elektronische Steuererklärung</h4>
         <p>ELSTER ist die größte E-Government-Anwendung Deutschlands. Über das Portal können Bürger, Unternehmen und
             Steuerberater Steuererklärungen elektronisch übermitteln, Bescheide abrufen und Voranmeldungen versenden.
-            ELSTER stellt auch Schnittstellen (ERiC) für Steuersoftware bereit. Federführung: Bayern .</p>
+            ELSTER stellt auch Schnittstellen (ERiC) für Steuersoftware bereit. Federführung: Bayern.</p>
     </div>
     <div class="hidden-detail" id="elfe">
         <h4>ELFE – Einheitliche länderübergreifende Festsetzung</h4>
         <p>ELFE ist eines der drei Kernverfahren. Es verarbeitet die über ELSTER eingehenden Daten, berechnet die
             Steuerschuld und erstellt den Steuerbescheid. Zuständige Länder: Baden-Württemberg, Bayern,
-            Nordrhein-Westfalen (Verfahrensmanagement Bayern). ELFE sorgt für bundesweit einheitliche Steuerfestsetzung
-            .</p>
+            Nordrhein-Westfalen (Verfahrensmanagement Bayern). ELFE sorgt für bundesweit einheitliche Steuerfestsetzung.
+        </p>
     </div>
     <div class="hidden-detail" id="biene">
         <h4>BIENE – Bundeseinheitliche integrierte evolutionäre Neuentwicklung der Erhebung</h4>
         <p>BIENE ist das Kernverfahren für die Steuererhebung. Es bildet den gesamten Zahlungsverkehr ab: Fälligkeiten,
             Ein- und Auszahlungen, Mahnungen, Erstattungen, Verjährungen, Buchführung und Bankverkehr. BIENE ist eng mit
-            dem VO-System verzahnt. Zuständig: Bayern und Niedersachsen (Verfahrensmanagement Bayern) .</p>
+            dem VO-System verzahnt. Zuständig: Bayern und Niedersachsen (Verfahrensmanagement Bayern).</p>
     </div>
     <div class="hidden-detail" id="ginster">
         <h4>GINSTER – Grundinformationsdienst Steuer</h4>
         <p>GINSTER ist das Kernverfahren für das Stammdatenmanagement. Es verwaltet zentral Name, Adresse,
             Bankverbindung und weitere Grunddaten der Steuerpflichtigen. Ohne korrekte Stammdaten könnten Bescheide
             nicht adressiert und Zahlungen nicht zugeordnet werden. GINSTER ist bereits in allen Bundesländern im
-            Einsatz. Zuständig: Hessen (HZD) .</p>
+            Einsatz. Zuständig: Hessen (HZD).</p>
     </div>
     <div class="hidden-detail" id="vo">
         <h4>VO‑System (Vollstreckung)</h4>
         <p>Das VO‑System automatisiert die Beitreibung offener Steuerforderungen: Pfändungen (Konto, Sach, Forderung),
             Mahnläufe, Erstattungen, Kommunikation mit Banken und Drittschuldnern sowie elektronische Aktenführung. Es
-            wird in den meisten Ländern eingesetzt und ist eng mit BIENE verzahnt. Federführung: Niedersachsen .</p>
+            wird in den meisten Ländern eingesetzt und ist eng mit BIENE verzahnt. Federführung: Niedersachsen.</p>
     </div>
     <div class="hidden-detail" id="weitere">
         <h4>Die 19 KONSENS-Verfahren (Überblick)</h4>
-        <p>Neben den drei Kernverfahren (GINSTER, BIENE, ELFE) und ELSTER umfasst KONSENS unter anderem :</p>
+        <p>Neben den drei Kernverfahren (GINSTER, BIENE, ELFE) und ELSTER umfasst KONSENS unter anderem:</p>
         <ul>
             <li><strong>MÜSt:</strong> Überwachung von Steuerfällen, Erinnerungen, Zwangsgelder (Bayern)</li>
             <li><strong>BuStra/Steufa:</strong> Bußgeld- und Strafsachen, Steuerfahndung (Niedersachsen)</li>
             <li><strong>DAME:</strong> Data Warehouse, Auswertungen, Business Intelligence (BaWü, Bayern, NRW)</li>
             <li><strong>StundE:</strong> Stundung, Erlass, Aussetzung der Vollziehung</li>
-            <li><strong>EinS:</strong> Einheitliche Suche (Hessen) – neues Recherchetool </li>
-            <li><strong>RABE:</strong> Referenzierung auf Belege (für elektronische Belege) </li>
+            <li><strong>EinS:</strong> Einheitliche Suche (Hessen) – neues Recherchetool</li>
+            <li><strong>RABE:</strong> Referenzierung auf Belege (für elektronische Belege)</li>
             <li>VO (Vollstreckung), weitere Verfahren für Betriebsprüfung, Grundbesitz, Umsatzsteuer-Sonderprüfung
                 u.v.m.</li>
         </ul>
         <p>Ziel ist die Ablösung der alten länderspezifischen Verfahren durch diese 19 einheitlichen Systeme.</p>
     </div>
-
-    <!-- Vollständige Anforderungen (für Modal) -->
     <div class="hidden-detail" id="more-anforderungen-complete">
         <h4>Alle Anforderungen</h4>
         <ul>
@@ -1261,8 +1418,6 @@
             <li>Projektarbeit, analytisches Denken, Teamfähigkeit</li>
         </ul>
     </div>
-
-    <!-- Vollständige Qualifikationen (für Modal) -->
     <div class="hidden-detail" id="more-qualifikation-complete">
         <h4>Alle Qualifikationen</h4>
         <ul>
@@ -1272,15 +1427,12 @@
             <li><strong>Automatisierung:</strong> Bash, Python, Automatisierung von Abläufen</li>
             <li><strong>Versionsverwaltung:</strong> Git, GitLab in Arbeitsgruppen</li>
             <li><strong>Dokumentation:</strong> MediaWiki, Confluence – strukturierte Wissensweitergabe</li>
-            <li><strong>Verfahrensbetrieb:</strong> Konfiguration, Testing, Plausibilitätsprüfungen,
-                Fehleranalyse</li>
-            <li><strong>Zusammenarbeit & Team:</strong> Kommunikation mit Entwicklern und Fachbereichen,
-                gemeinsames Debugging, Mitarbeit in länderübergreifenden Arbeitsgruppen (z.B. INSPIRE),
-                Teamarbeit</li>
+            <li><strong>Verfahrensbetrieb:</strong> Konfiguration, Testing, Plausibilitätsprüfungen, Fehleranalyse</li>
+            <li><strong>Zusammenarbeit & Team:</strong> Kommunikation mit Entwicklern und Fachbereichen, gemeinsames
+                Debugging, Mitarbeit in länderübergreifenden Arbeitsgruppen (z.B. INSPIRE), Teamarbeit</li>
             <li>Projekterfahrung, selbstständige, strukturierte Arbeitsweise</li>
             <li>Überwachung von Batch-Läufen, QS, Monitoring</li>
             <li>Strukturiertes Grundverständnis der spezifischen Abläufe erarbeitet</li>
-
         </ul>
     </div>
 
@@ -1348,13 +1500,109 @@
 
             // Akkordeon für Quellen
             const accordion = document.getElementById('quellenAccordion');
-            const header = accordion.querySelector('.accordion-header');
-            header.addEventListener('click', function () {
-                accordion.classList.toggle('open');
+            const accordionHeader = document.getElementById('accordionHeader');
+            if (accordionHeader) {
+                accordionHeader.addEventListener('click', function () {
+                    accordion.classList.toggle('open');
+                });
+            }
+
+            // Scroll-to-Top Button
+            const scrollBtn = document.getElementById('scrollTopBtn');
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 300) {
+                    scrollBtn.classList.add('visible');
+                } else {
+                    scrollBtn.classList.remove('visible');
+                }
             });
 
-            // ========== EXPORT-FUNKTION (PDF) ==========
-            const exportBtn = document.getElementById('exportPdfBtn');
+            scrollBtn.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Volltextsuche
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+
+            function removeHighlights() {
+                document.querySelectorAll('.search-highlight').forEach(el => {
+                    el.classList.remove('search-highlight');
+                });
+            }
+
+            function searchText() {
+                removeHighlights();
+                const query = searchInput.value.trim().toLowerCase();
+                if (query === '') return;
+
+                const textElements = document.querySelectorAll('.container p, .container li, .container .kurztext, .container .zitat-text, .container .profil-text p, .container .card h3, .container .section-title');
+                let firstMatch = null;
+
+                textElements.forEach(el => {
+                    if (el.innerText.toLowerCase().includes(query)) {
+                        el.classList.add('search-highlight');
+                        if (!firstMatch) firstMatch = el;
+                    }
+                });
+
+                if (firstMatch) {
+                    firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    alert('Keine Treffer gefunden.');
+                }
+            }
+
+            if (searchButton) {
+                searchButton.addEventListener('click', searchText);
+            }
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') searchText();
+                });
+            }
+
+            // Header Ein-/Ausblenden beim Scrollen
+            const header = document.getElementById('mainHeader');
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+            let isLinkClick = false;
+
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', function () {
+                    isLinkClick = true;
+                    header.classList.remove('hidden');
+                    setTimeout(() => {
+                        isLinkClick = false;
+                    }, 1000);
+                });
+            });
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const currentScrollY = window.scrollY;
+
+                        if (!isLinkClick) {
+                            if (currentScrollY > lastScrollY && currentScrollY > 100 && (currentScrollY - lastScrollY) > 10) {
+                                header.classList.add('hidden');
+                            } else if (currentScrollY < lastScrollY) {
+                                header.classList.remove('hidden');
+                            }
+                        }
+
+                        if (currentScrollY === 0) {
+                            header.classList.remove('hidden');
+                        }
+
+                        lastScrollY = currentScrollY;
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            // ===== DRUCK-FUNKTION (per Strg+P) =====
             const printContainer = document.getElementById('print-details-container');
 
             function fillPrintContainer() {
@@ -1378,13 +1626,18 @@
                 printContainer.innerHTML = html;
             }
 
-            exportBtn.addEventListener('click', function () {
-                fillPrintContainer();
-                setTimeout(() => {
-                    window.print();
-                }, 150);
-            });
+            // Bei Druckvorbereitung (Strg+P) den Container füllen
+            if (window.matchMedia) {
+                const mediaQueryList = window.matchMedia('print');
+                mediaQueryList.addListener(function (mql) {
+                    if (mql.matches) {
+                        fillPrintContainer();
+                    }
+                });
+            }
 
+            // Fallback für ältere Browser: onbeforeprint
+            window.onbeforeprint = fillPrintContainer;
         })();
     </script>
 </body>
